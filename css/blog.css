@@ -75,10 +75,12 @@ nav a {
 
 .article h1 {
   font-family: 'Special Elite', cursive;
+
 }
 
 .PublishDate {
   font-family: fantasy;
+  font-size: .8em;
 }
 
 .article img {
@@ -86,6 +88,12 @@ nav a {
   height: 320px;
   display: inline-block;
   margin: 5px;
+}
+
+#author {
+  font-weight: bold;
+  font-size: .8em;
+  margin-bottom: 5px;
 }
 
 /******************
