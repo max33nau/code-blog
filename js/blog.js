@@ -18,8 +18,7 @@ Articles.prototype.toHtml = function(ii) {
   .attr( 'class','article' );
   $generateArticle.find('h1:first').html(this.articleData[ii].title);
   $generateArticle.find('#author').html('By ' + this.articleData[ii].author);
-  $generateArticle.find('time').html('exactly ' + parseInt((new Date() -
-  new Date(this.articleData[ii].publishedOn))/60/60/24/1000) + ' days ago');
+  $generateArticle.find('time').html('exactly ' + this.articleData[ii].DaysPublishedAgo + ' days ago');
   $generateArticle.find('.article-body').html(this.articleData[ii].body);
   $generateArticle.append('<hr>');
   return $generateArticle;
