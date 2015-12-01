@@ -26,9 +26,6 @@ Articles.prototype.toHtml = function(ii) {
 
 
 
-
-
-
 $(function() {
   var my = {};
   my.$anchor = $('#blog_articles');
