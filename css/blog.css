@@ -75,7 +75,6 @@ nav a {
 
 .article h1 {
   font-family: 'Special Elite', cursive;
-
 }
 
 .PublishDate {
@@ -83,11 +82,25 @@ nav a {
   font-size: .8em;
 }
 
+
 .article img {
-  width: 320px;
-  height: 320px;
+  width: 200px;
+  height: 200px;
+  max-width: 100%;
   display: inline-block;
   margin: 5px;
+}
+
+.article img:nth-of-type(odd) {
+  float: left;
+}
+
+.article img:nth-of-type(even) {
+  float: right;
+}
+
+.article hr {
+  clear: both;
 }
 
 #author {
