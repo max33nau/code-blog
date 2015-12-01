@@ -1,10 +1,10 @@
-
 function Articles() {
-  this.articleData = blog.rawData;
+  this.articleData = [];
   this.sortPublishDate = function () {
-    for(var ii = 0; ii < this.articleData.length; ii++) {
-      this.articleData[ii].DaysPublishedAgo = parseInt((new Date() -
-      new Date(this.articleData[ii].publishedOn))/60/60/24/1000);
+    for(var ii = 0; ii < blog.rawData.length; ii++) {
+      blog.rawData[ii].DaysPublishedAgo = parseInt((new Date() -
+      new Date(blog.rawData[ii].publishedOn))/60/60/24/1000);
+      this.articleData.push(blog.rawData[ii]);
     }
     this.articleData.sort(function(a,b){ return (a.DaysPublishedAgo - b.DaysPublishedAgo ); });
     console.log(this.articleData);
@@ -24,8 +24,6 @@ Articles.prototype.toHtml = function(ii) {
   return $generateArticle;
 };
 
-
-
 $(function() {
   var my = {};
   my.$anchor = $('#blog_articles');
@@ -35,10 +33,6 @@ $(function() {
   for( var ii = 0; ii < my.articles.articleData.length; ii++) {
     my.$anchor.append(my.articles.toHtml(ii));
   }
-
-
-
-
 
   return my;
 }
