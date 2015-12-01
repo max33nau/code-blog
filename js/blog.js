@@ -17,6 +17,7 @@ Articles.prototype.toHtml = function(ii) {
   $generateArticle.attr( 'id',this.articleData[ii].title.split(' ')[0] )
   .attr( 'class','article' );
   $generateArticle.find('h1:first').html(this.articleData[ii].title);
+  $generateArticle.find('#author').html('By ' + this.articleData[ii].author);
   $generateArticle.find('time').html('exactly ' + parseInt((new Date() -
   new Date(this.articleData[ii].publishedOn))/60/60/24/1000) + ' days ago');
   $generateArticle.find('.article-body').html(this.articleData[ii].body);
