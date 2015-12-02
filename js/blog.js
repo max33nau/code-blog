@@ -11,6 +11,7 @@ function Data (rawData) {
 
 function Blog() {
   this.article = [];
+  this.readMore = '<div id="readMore"> Read More --> </div>'
 
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
@@ -19,10 +20,13 @@ function Blog() {
   }
   this.sortPublishDate = function () {
     this.article.sort(function(a,b){ return (a.DaysPublishedAgo - b.DaysPublishedAgo ); });
-    console.log(this.article);
+  //  console.log(this.article);
   }
 
 }
+
+
+
 
 Blog.prototype.toHtml = function(ii) {
   var $generateArticle = $( 'article.articleTemplate' ).clone();
@@ -32,7 +36,10 @@ Blog.prototype.toHtml = function(ii) {
   $generateArticle.find('h1:first').html(this.article[ii].title);
   $generateArticle.find('#author').html('By ' + this.article[ii].author);
   $generateArticle.find('time').html('exactly ' + this.article[ii].DaysPublishedAgo + ' days ago');
-  $generateArticle.find('.article-body').html(this.article[ii].body);
+  var $generateBody = $generateArticle.find('.article-body');
+  $generateBody.html(this.article[ii].body).find('p').not(':first').hide();
+  $generateBody.find('p:first').append('<span class="expand"> Read More --> </span>');
+  $generateBody.find('p:last').append('<span class="hide"> Hide <-- </span>');
   $generateArticle.append('<hr>');
   return $generateArticle;
 };
@@ -40,13 +47,21 @@ Blog.prototype.toHtml = function(ii) {
 $(function() {
   var my = {};
   my.$anchor = $('#blog_articles');
+  my.util = new Util();
   my.blog = new Blog();
   my.blog.generateObjectArray(blog.rawData);
   my.blog.sortPublishDate();
 
+
   for( var ii = 0; ii < my.blog.article.length; ii++) {
     my.$anchor.append(my.blog.toHtml(ii));
   }
+
+
+ my.util.expand();
+ my.util.hide();
+
+
 
   return my;
 }
