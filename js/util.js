@@ -18,4 +18,5 @@ function Util() {
       $self.parent().parent().children().not(':first-child').hide();
     });
   }
+
 }
