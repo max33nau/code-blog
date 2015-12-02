@@ -11,28 +11,28 @@ function Data (rawData) {
 
 function Blog() {
   this.article = [];
-  this.readMore = '<div id="readMore"> Read More --> </div>'
+  this.author = [];
+  this.category = [];
 
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
       this.article.push(new Data(rawData[ii]));
+      this.author.push(this.article[ii].author);
+      this.category.push(this.article[ii].category);
     }
-  }
-  this.sortPublishDate = function () {
+  };
+
+  this.sortArrays = function () {
     this.article.sort(function(a,b){ return (a.DaysPublishedAgo - b.DaysPublishedAgo ); });
-  //  console.log(this.article);
-  }
-
+    this.author.sort();
+    this.category.sort();
+  };
 }
-
-
-
 
 Blog.prototype.toHtml = function(ii) {
   var $generateArticle = $( 'article.articleTemplate' ).clone();
   $generateArticle.removeClass('articleTemplate');
-  $generateArticle.attr( 'id',this.article[ii].title.split(' ')[0] )
-  .attr( 'class','article' );
+  $generateArticle.attr( 'class','article' );
   $generateArticle.find('h1:first').html(this.article[ii].title);
   $generateArticle.find('#author').html('By ' + this.article[ii].author);
   $generateArticle.find('time').html('exactly ' + this.article[ii].DaysPublishedAgo + ' days ago');
@@ -50,19 +50,16 @@ $(function() {
   my.util = new Util();
   my.blog = new Blog();
   my.blog.generateObjectArray(blog.rawData);
-  my.blog.sortPublishDate();
-
+  my.blog.sortArrays();
 
   for( var ii = 0; ii < my.blog.article.length; ii++) {
     my.$anchor.append(my.blog.toHtml(ii));
   }
 
-
- my.util.expand();
- my.util.hide();
-
-
+  my.util.expand();
+  my.util.hide();
 
   return my;
+  
 }
 );

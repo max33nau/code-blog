@@ -2,22 +2,20 @@ function Util() {
 
   this.expand = function() {
    var $expand = $('.expand');
-    $expand.click(function(){
-      $(this).parent().siblings().show();
-      $(this).hide();
-      console.log($(this).parent().siblings());
+   $expand.click(function(){
+      var $self = $(this);
+      $self.parent().siblings().show();
+      $self.hide();
+      console.log($self.parent().siblings());
     });
   }
 
   this.hide = function() {
     var $hide = $('.hide');
-     $hide.click(function(){
-     $(this).parent().parent().children(':first-child').children().show();
-     $(this).parent().parent().children().not(':first-child').hide();
-
-      // console.log(x);
-     });
-
+    $hide.click(function(){
+      var $self = $(this);
+      $self.parent().parent().children(':first-child').children().show();
+      $self.parent().parent().children().not(':first-child').hide();
+    });
   }
-
 }
