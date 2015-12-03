@@ -40,6 +40,18 @@ function Blog() {
     }
     return filteredArray;
   };
+
+  this.addSubjectstoNav = function() {
+    var $authorFilter = $('#authorFilter');
+    var $categoryFilter = $('#categoryFilter');
+    for (var ii = 0; ii, ii < this.author.length; ii++) {
+      $authorFilter.append('<li class="authorName">' + this.author[ii] + '</li>');
+    }
+    for (var ii = 0; ii, ii < this.category.length; ii++) {
+      $categoryFilter.append('<li class="categorySubject">' + this.category[ii] + '</li>');
+    }
+  };
+
 }
 
 Blog.prototype.toHtml = function(ii) {
@@ -47,7 +59,8 @@ Blog.prototype.toHtml = function(ii) {
   $generateArticle.removeClass('articleTemplate');
   $generateArticle.attr( 'class','article' );
   $generateArticle.find('h1:first').html(this.article[ii].title);
-  $generateArticle.find('.author').html('By ' + this.article[ii].author);
+  $generateArticle.find('.author').html('By ' + '<span class="authorSpan">'+this.article[ii].author+'</span>');
+  $generateArticle.find('.category').html(this.article[ii].category).hide();
   $generateArticle.find('time').html('exactly ' + this.article[ii].DaysPublishedAgo + ' days ago');
   var $generateBody = $generateArticle.find('.article-body');
   $generateBody.html(this.article[ii].body).find('p').not(':first').hide();
@@ -66,12 +79,16 @@ $(function() {
   my.blog.sortArrays();
   my.blog.author = my.blog.filterProperty(my.blog.author);
   my.blog.category = my.blog.filterProperty(my.blog.category);
+  my.blog.addSubjectstoNav();
   for( var ii = 0; ii < my.blog.article.length; ii++) {
     my.$anchor.append(my.blog.toHtml(ii));
   }
-
+  my.util.navigation();
   my.util.expand();
   my.util.hide();
+  my.util.filterAuthors();
+  my.util.filterCategory();
+
 
   return my;
 

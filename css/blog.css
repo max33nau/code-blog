@@ -57,9 +57,81 @@ nav li {
   padding-bottom: 5px;
 }
 
-nav a {
-
+nav ul li a {
   padding: 15px 10px;
+}
+
+#filter{
+  display:block;
+}
+
+#navFilter {
+  width: 170px;
+  max-width: 90%;
+  background-color: #495152;
+  position: absolute;
+  top:100%
+  text-align: center;
+  display: none;
+  margin: 0 auto;
+}
+
+.filterSubjects {
+  width: 110px;
+  display: block;
+  padding: 5px 10px;
+  color: #ECF0F1;
+  text-align: center;
+  margin: 0 auto;
+  position: relative;
+
+}
+
+#authorFilter {
+  width: 120px;
+  max-width: 90%;
+  background-color: #495152;
+  position:absolute;
+  top: 0;
+  left: 100%;
+  text-align: center;
+  margin: 0 auto;
+  display: none;
+
+}
+
+.authorName {
+  width:100px;
+  max-width: 100%;
+  font-size: .8em;
+  display: block;
+  padding: 3px 3px;
+  color: #ECF0F1;
+  text-align: center;
+  position: relative;
+}
+
+#categoryFilter {
+  width: 120px;
+  max-width: 90%;
+  background-color: #495152;
+  position:absolute;
+  top: 0;
+  left: 100%;
+  text-align: center;
+  margin: 0 auto;
+  display: none;
+}
+
+.categorySubject {
+  width:100px;
+  max-width: 100%;
+  font-size: .8em;
+  display: block;
+  padding: 3px 3px;
+  color: #ECF0F1;
+  text-align: center;
+  position: relative;
 }
 
 
@@ -134,10 +206,10 @@ nav {
   background-color: #495152;
 }
 
-nav a {
+nav li a, nav ul li {
   color: #ECF0F1;
 }
 
-nav a.selected, nav a:hover {
+nav ul li a:hover, nav ul li:hover {
   color: #F2B100;
 }
