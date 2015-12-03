@@ -74,7 +74,6 @@ function Util() {
   this.filterAuthors = function() {
     var $authorClicked = $('.authorName');
     $authorClicked.click(function() {
-
       var $textValue = $(this).text();
       $('.author').find('.authorSpan').each(function() {
         var $author = $(this);
