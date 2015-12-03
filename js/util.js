@@ -1,6 +1,7 @@
 function Util() {
   this.expand = function() {
     var $expand = $('.expand');
+    $expand.css('cursor', 'e-resize');
     $expand.click(function(){
       var $self = $(this);
       $self.parent().siblings().show();
@@ -8,10 +9,12 @@ function Util() {
       console.log($self.parent().siblings());
     });
   };
-
+/* CURSOR RESISE USING CSS */
   this.hide = function() {
     var $hide = $('.hide');
+    $hide.css('cursor', 'w-resize');
     $hide.click(function(){
+      $('html,body').animate( {scrollTop: $(this).closest('.article').offset().top}, 400);
       var $self = $(this);
       $self.parent().parent().children(':first-child').children().show();
       $self.parent().parent().children().not(':first-child').hide();
@@ -19,20 +22,30 @@ function Util() {
   };
 
   this.navigation = function() {
-    $('#filter').hover(
+  /*  $('#filter').hover(
     function () {
       $('#navFilter', this).stop().slideDown(100);
     },
     function () {
       $('#navFilter', this).stop().slideUp(100);
     }
-  );
+  );*/
 
     $('#filter').click(
     function () {
-      $('#navFilter', this).stop().slideDown(100);
+      console.log('work');
+      $('#navFilter',this).slideDown(200);
+
     }
   );
+
+    $('#closeNavFilter').click(
+    function(e) {
+      console.log('here');
+      $('#navFilter').slideUp(200);
+      e.stopPropagation();
+    }
+   );
 
     $('.filterSubjects').hover(
     function () {

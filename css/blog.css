@@ -55,6 +55,7 @@ nav ul {
 nav li {
   display: inline-block;
   padding-bottom: 5px;
+  cursor: pointer;
 }
 
 nav ul li a {
@@ -63,14 +64,18 @@ nav ul li a {
 
 #filter{
   display:block;
+
+}
+
+#filter{
+  color: lightgreen;
 }
 
 #navFilter {
   width: 170px;
   max-width: 90%;
   background-color: #495152;
-  position: absolute;
-  top:100%
+  position: relative;
   text-align: center;
   display: none;
   margin: 0 auto;
@@ -83,8 +88,10 @@ nav ul li a {
   color: #ECF0F1;
   text-align: center;
   margin: 0 auto;
-  position: relative;
+}
 
+.filterSubjects:hover {
+  color:red;
 }
 
 #authorFilter {
@@ -93,11 +100,10 @@ nav ul li a {
   background-color: #495152;
   position:absolute;
   top: 0;
-  left: 100%;
+  left: 80%;
   text-align: center;
   margin: 0 auto;
   display: none;
-
 }
 
 .authorName {
@@ -116,8 +122,8 @@ nav ul li a {
   max-width: 90%;
   background-color: #495152;
   position:absolute;
-  top: 0;
-  left: 100%;
+  top: 50%;
+  left: 80%;
   text-align: center;
   margin: 0 auto;
   display: none;
