@@ -3,6 +3,7 @@
   <head>
     <title> Max Jacobsen | Blog Project </title>
     <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> </meta>
     <link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/blog.css">
 
@@ -10,23 +11,47 @@
 
 
   <body>
-    <header id="mainHeader">
-      <h1 id="mainHeaderText"> Max Jacobsen's Blog of Randomness </h1>
-    </header>
 
-    <nav>
-      <ul>
-        <li> <a href="index.html" class="selected"> Articles </a> </li>
-        <li> <a href="aboutme.html"> About Me </a> </li>
-        <li> <a href="https://github.com/max33nau" target="_blank"> Github </a> </li>
-        <li> <a href="https://www.linkedin.com/in/maxjacobsen33" target="_blank"> Linkedin </a> </li>
-    </nav>
+      <header id="mainHeader">
+        <h1 id="mainHeaderText"> Max Jacobsen's Blog of Randomness </h1>
+      </header>
+
+      <nav>
+        <ul>
+          <li id='navArticles'>  Articles  </li>
+          <li id='navAboutMe'> About Me </li>
+          <li> <a href="https://github.com/max33nau" target="_blank"> Github </a> </li>
+          <li> <a href="https://www.linkedin.com/in/maxjacobsen33" target="_blank"> Linkedin </a> </li>
+          <li id="filter"> Search By:
+            <ul id="navFilter">
+              <li class="filterSubjects"> Author-->
+                <ul id="authorFilter">  </ul>
+              </li>
+              <li class="filterSubjects"> Category-->
+                <ul id="categoryFilter"> </ul>
+              </li>
+              <li class="filterSubjects" id="closeNavFilter"> ^ Close ^ </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+    <section id="AboutMe">
+      <h1> A little bit about my 90s childhood </h1>
+      <p> Rocko’s Modern Life Air Jordans mad props leopard print. Napster t-shirts Home Alone overalls with one strap undone stonewashed blue jeans. Julia Roberts screening phone calls hoop earrings Barbie. Be kind rewind Schindler’s List body piercings Rodney King riots. Jeans Patti Mayonnaise neon colors Razor scooter accent braids crib. Reebok Pumps Seinfeld adipiscing denim jackets Pearl Jam. </p>
+      <p> Hi-top fade animated GIFs beepers hottie Honda Accord, reprehenderit pop punk Enrique Iglesias did I do that turtlenecks. Armageddon as if fly snapback hats ut Chuck Taylor All-Stars, mad props id glow in the dark stickers nulla Des’ree. Alta Vista Dawson’s Creek catsuit spiked hair Britney Spears, Daria Garth Brooks cupidatat alternative rock.</p>
+      <p> Desert Storm crimped hair LA Gear overalls with one strap undone. Mia Hamm you’ve got mail discovery zone Uncle Phil Frasier, Giga Pets PlayStation Kurt Cobain business casual. Super soaker grunge irure Savage Garden mollit. Sugar Ray skate tees buddy list aviators chat rooms Hotmail. Keepin’ it real DSL velit Hot Pockets Rocko’s Modern Life. Aute once you pop you can’t stop Tom Hanks Alta Vista Deep Blue turquoise.</p>
+      <p> The Simpsons Fila elit Clueless Mazda MPV I'm king of the world. Bomber jacket ut bye bye bye wearing your cap backwards. Track jackets smells like teen spirit baby got back Central Perk, crop tops Beavis and Butthead Super Nintendo beepers boy bands. Ex Mia Hamm Ken Griffey Jr Hush Puppies minesweeper grunge. Wesley Snipes cornrows zebra stripes Des’ree Kool-Aid Man. Topanga George Clooney scrolling text wallet chains.</p>
+      <p> Lion King the Mighty Ducks punk Wonderwall quiet storm, Sugar Ray Independence Day Home Improvement proident. Bucket hats Giga Pets alternative rock Titanic VCR, minesweeper Reebok Pumps polo shirts with popped collars adipiscing Bill Gates. Glow in the dark stickers Schindler’s List Sonic the Hedgehog cornrows, beepers tempor Mario Lemieux jeans Union Jack Windows 95. I will always love you America Online Geo Metro denim jackets Lunchables.</p>
+
+    </section>
 
     <section id="blog_articles">
       <article class="articleTemplate">
         <header>
           <h1>Title</h1>
-          <p id="author"> </p>
+          <h5 class="author"> </h5>
+          <div class="category"> </div>
           <div class="PublishDate"> Published <time pubdate datetime="2000-01-01">
             Publish Time </time>
           </div>
@@ -42,6 +67,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">></script>
     <script language="javascript" type="text/javascript" src="js/initializeBlog.js"> </script>
     <script language="javascript" type="text/javascript" src="js/blogArticles.js"> </script>
+    <script language="javascript" type="text/javascript" src="js/util.js"> </script>
     <script language="javascript" type="text/javascript" src="js/blog.js"> </script>
   </body>
 </html>

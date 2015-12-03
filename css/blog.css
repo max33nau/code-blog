@@ -14,13 +14,14 @@ a {
   display: none;
 }
 
+
 /******************
       HEADING
 ******************/
 
 #mainHeader {
   float: left;
-  margin: 0 0 10px 0;
+  margin: -5px 0 10px 0;
   padding: 5px 0 0 0;
   width: 100%;
 }
@@ -43,7 +44,7 @@ nav {
   text-align: center;
   padding: 10px 0;
   margin: 10px 0 0 0;
-  width: 100%
+  width: 100%;
 }
 
 nav ul {
@@ -55,13 +56,109 @@ nav ul {
 nav li {
   display: inline-block;
   padding-bottom: 5px;
+  cursor: pointer;
 }
 
-nav a {
+nav ul li a, nav ul li {
+  padding: 5px 5px;
 
-  padding: 15px 10px;
 }
 
+#filter{
+  display:block;
+  width: 110px;
+  max-width: 100%;
+  text-align: center;
+  margin: 0 auto;
+
+}
+
+#filter{
+  color: lightgreen;
+}
+
+#navFilter {
+  width: 170px;
+  max-width: 90%;
+  background-color: #495152;
+  position: relative;
+  text-align: center;
+  display: none;
+  margin: 0 auto;
+}
+
+.filterSubjects {
+  width: 110px;
+  display: block;
+  padding: 5px 10px;
+  color: #1F9BCC;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.filterSubjects:hover {
+  color:red;
+}
+
+#closeNavFilter {
+  color: lightgreen;
+}
+
+#authorFilter {
+  width: 130px;
+  background-color: #495152;
+  position:absolute;
+  top: 0;
+  left: 110%;
+  text-align: center;
+  margin: 0 auto;
+  display: none;
+}
+
+.authorName {
+  width:110px;
+  max-width: 100%;
+  font-size: .8em;
+  display: block;
+  padding: 4px 3px;
+  color: #ECF0F1;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+}
+
+#categoryFilter {
+  width: 120px;
+  background-color: #495152;
+  position:absolute;
+  top: 40%;
+  left: 120%;
+  text-align: center;
+  margin: 0 auto;
+  display: none;
+}
+
+.categorySubject {
+  width:100px;
+  max-width: 100%;
+  font-size: .8em;
+  display: block;
+  padding: 4px 3px;
+  color: #ECF0F1;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+}
+
+/******************
+     About Me
+******************/
+#AboutMe {
+  width: 960px;
+  max-width: 90%;
+  margin: 5px auto;
+  display:none;
+}
 
 /******************
      Articles
@@ -103,6 +200,16 @@ nav a {
   clear: both;
 }
 
+.expand, .hide {
+  color: darkblue;
+  font-size: .9em;
+  font-weight: bold;
+  display: inline-block;
+  padding: 2px;
+}
+
+
+
 #author {
   font-weight: bold;
   font-size: .8em;
@@ -125,10 +232,10 @@ nav {
   background-color: #495152;
 }
 
-nav a {
+nav li a, nav ul li {
   color: #ECF0F1;
 }
 
-nav a.selected, nav a:hover {
+nav ul li a:hover, nav ul li:hover {
   color: #F2B100;
 }

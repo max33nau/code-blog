@@ -11,28 +11,61 @@ function Data (rawData) {
 
 function Blog() {
   this.article = [];
+  this.author = [];
+  this.category = [];
 
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
       this.article.push(new Data(rawData[ii]));
+      this.author.push(this.article[ii].author);
+      this.category.push(this.article[ii].category);
     }
-  }
-  this.sortPublishDate = function () {
+  };
+
+  this.sortArrays = function () {
     this.article.sort(function(a,b){ return (a.DaysPublishedAgo - b.DaysPublishedAgo ); });
-    console.log(this.article);
-  }
+    this.author.sort();
+    this.category.sort();
+  };
+
+  this.filterProperty = function(PropertyToBeFiltered) {
+    var filteredArray = [];
+    var repeat = 0;
+    for(var ii = 0; ii < PropertyToBeFiltered.length; ii++) {
+      if( PropertyToBeFiltered[ii] == PropertyToBeFiltered[ii+1] ) {
+        repeat++;
+      } else {
+        filteredArray.push(PropertyToBeFiltered[ii]);
+      }
+    }
+    return filteredArray;
+  };
+
+  this.addSubjectstoNav = function() {
+    var $authorFilter = $('#authorFilter');
+    var $categoryFilter = $('#categoryFilter');
+    for (var ii = 0; ii, ii < this.author.length; ii++) {
+      $authorFilter.append('<li class="authorName">' + this.author[ii] + '</li>');
+    }
+    for (var ii = 0; ii, ii < this.category.length; ii++) {
+      $categoryFilter.append('<li class="categorySubject">' + this.category[ii] + '</li>');
+    }
+  };
 
 }
 
 Blog.prototype.toHtml = function(ii) {
   var $generateArticle = $( 'article.articleTemplate' ).clone();
   $generateArticle.removeClass('articleTemplate');
-  $generateArticle.attr( 'id',this.article[ii].title.split(' ')[0] )
-  .attr( 'class','article' );
+  $generateArticle.attr( 'class','article' );
   $generateArticle.find('h1:first').html(this.article[ii].title);
-  $generateArticle.find('#author').html('By ' + this.article[ii].author);
+  $generateArticle.find('.author').html('By ' + '<span class="authorSpan">'+this.article[ii].author+'</span>');
+  $generateArticle.find('.category').html(this.article[ii].category).hide();
   $generateArticle.find('time').html('exactly ' + this.article[ii].DaysPublishedAgo + ' days ago');
-  $generateArticle.find('.article-body').html(this.article[ii].body);
+  var $generateBody = $generateArticle.find('.article-body');
+  $generateBody.html(this.article[ii].body).find('p').not(':first').hide();
+  $generateBody.find('p:first').append('<span class="expand"> Read More --> </span>');
+  $generateBody.find('p:last').append('<span class="hide"> Hide <-- </span>');
   $generateArticle.append('<hr>');
   return $generateArticle;
 };
@@ -40,14 +73,24 @@ Blog.prototype.toHtml = function(ii) {
 $(function() {
   var my = {};
   my.$anchor = $('#blog_articles');
+  my.util = new Util();
   my.blog = new Blog();
   my.blog.generateObjectArray(blog.rawData);
-  my.blog.sortPublishDate();
-
+  my.blog.sortArrays();
+  my.blog.author = my.blog.filterProperty(my.blog.author);
+  my.blog.category = my.blog.filterProperty(my.blog.category);
+  my.blog.addSubjectstoNav();
   for( var ii = 0; ii < my.blog.article.length; ii++) {
     my.$anchor.append(my.blog.toHtml(ii));
   }
+  my.util.navigation();
+  my.util.expand();
+  my.util.hide();
+  my.util.filterAuthors();
+  my.util.filterCategory();
+
 
   return my;
+
 }
 );
