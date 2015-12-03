@@ -69,6 +69,10 @@ function Util() {
       $('#filter').show();
     });
 
+    $('.article').click(function() {
+      $('#navFilter').slideUp(200);
+    });
+
   };
 
   this.filterAuthors = function() {
