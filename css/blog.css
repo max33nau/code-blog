@@ -14,6 +14,7 @@ a {
   display: none;
 }
 
+
 /******************
       HEADING
 ******************/
@@ -58,12 +59,17 @@ nav li {
   cursor: pointer;
 }
 
-nav ul li a {
-  padding: 15px 10px;
+nav ul li a, nav ul li {
+  padding: 5px 5px;
+
 }
 
 #filter{
   display:block;
+  width: 110px;
+  max-width: 100%;
+  text-align: center;
+  margin: 0 auto;
 
 }
 
@@ -85,7 +91,7 @@ nav ul li a {
   width: 110px;
   display: block;
   padding: 5px 10px;
-  color: #ECF0F1;
+  color: #1F9BCC;
   text-align: center;
   margin: 0 auto;
 }
@@ -94,36 +100,39 @@ nav ul li a {
   color:red;
 }
 
+#closeNavFilter {
+  color: lightgreen;
+}
+
 #authorFilter {
-  width: 120px;
-  max-width: 90%;
+  width: 130px;
   background-color: #495152;
   position:absolute;
   top: 0;
-  left: 80%;
+  left: 110%;
   text-align: center;
   margin: 0 auto;
   display: none;
 }
 
 .authorName {
-  width:100px;
+  width:110px;
   max-width: 100%;
   font-size: .8em;
   display: block;
-  padding: 3px 3px;
+  padding: 4px 3px;
   color: #ECF0F1;
   text-align: center;
   position: relative;
+  margin: 0 auto;
 }
 
 #categoryFilter {
   width: 120px;
-  max-width: 90%;
   background-color: #495152;
   position:absolute;
-  top: 50%;
-  left: 80%;
+  top: 40%;
+  left: 120%;
   text-align: center;
   margin: 0 auto;
   display: none;
@@ -134,12 +143,22 @@ nav ul li a {
   max-width: 100%;
   font-size: .8em;
   display: block;
-  padding: 3px 3px;
+  padding: 4px 3px;
   color: #ECF0F1;
   text-align: center;
   position: relative;
+  margin: 0 auto;
 }
 
+/******************
+     About Me
+******************/
+#AboutMe {
+  width: 960px;
+  max-width: 90%;
+  margin: 5px auto;
+  display:none;
+}
 
 /******************
      Articles
@@ -182,8 +201,9 @@ nav ul li a {
 }
 
 .expand, .hide {
-  background-color: #495152;
-  color: #F2B100;
+  color: darkblue;
+  font-size: .9em;
+  font-weight: bold;
   display: inline-block;
   padding: 2px;
 }

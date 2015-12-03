@@ -22,14 +22,6 @@ function Util() {
   };
 
   this.navigation = function() {
-  /*  $('#filter').hover(
-    function () {
-      $('#navFilter', this).stop().slideDown(100);
-    },
-    function () {
-      $('#navFilter', this).stop().slideUp(100);
-    }
-  );*/
 
     $('#filter').click(
     function () {
@@ -64,11 +56,25 @@ function Util() {
       $('#categoryFilter', this).stop().slideUp(100);
     }
   );
+
+    $('#navAboutMe').click(function() {
+      $('#AboutMe').show();
+      $('.article').hide();
+      $('#filter').hide();
+    });
+
+    $('#navArticles').click(function() {
+      $('#AboutMe').hide();
+      $('.article').show();
+      $('#filter').show();
+    });
+
   };
 
   this.filterAuthors = function() {
     var $authorClicked = $('.authorName');
     $authorClicked.click(function() {
+
       var $textValue = $(this).text();
       $('.author').find('.authorSpan').each(function() {
         var $author = $(this);
