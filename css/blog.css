@@ -10,6 +10,14 @@ a {
   text-decoration: none;
 }
 
+.navicons {
+  display: inline;
+  width: 20px;
+  height: 20px;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
 
 /******************
       HEADING
@@ -53,6 +61,7 @@ nav li {
   display: inline-block;
   padding-bottom: 5px;
   cursor: pointer;
+  
 }
 
 nav ul li a, nav ul li {
