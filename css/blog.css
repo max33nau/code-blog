@@ -10,8 +10,12 @@ a {
   text-decoration: none;
 }
 
-.articleTemplate {
-  display: none;
+.navicons {
+  display: inline;
+  width: 20px;
+  height: 20px;
+  max-width: 100%;
+  vertical-align: middle;
 }
 
 
@@ -57,6 +61,7 @@ nav li {
   display: inline-block;
   padding-bottom: 5px;
   cursor: pointer;
+  
 }
 
 nav ul li a, nav ul li {
@@ -70,17 +75,11 @@ nav ul li a, nav ul li {
   max-width: 100%;
   text-align: center;
   margin: 0 auto;
-
-}
-
-#filter{
-  color: lightgreen;
 }
 
 #navFilter {
   width: 170px;
   max-width: 90%;
-  background-color: #495152;
   position: relative;
   text-align: center;
   display: none;
@@ -91,22 +90,14 @@ nav ul li a, nav ul li {
   width: 110px;
   display: block;
   padding: 5px 10px;
-  color: #1F9BCC;
   text-align: center;
   margin: 0 auto;
 }
 
-.filterSubjects:hover {
-  color:red;
-}
-
-#closeNavFilter {
-  color: lightgreen;
-}
 
 #authorFilter {
   width: 130px;
-  background-color: #495152;
+  border-radius: 5%;
   position:absolute;
   top: 0;
   left: 110%;
@@ -121,7 +112,6 @@ nav ul li a, nav ul li {
   font-size: .8em;
   display: block;
   padding: 4px 3px;
-  color: #ECF0F1;
   text-align: center;
   position: relative;
   margin: 0 auto;
@@ -129,7 +119,7 @@ nav ul li a, nav ul li {
 
 #categoryFilter {
   width: 120px;
-  background-color: #495152;
+  border-radius: 5%;
   position:absolute;
   top: 40%;
   left: 120%;
@@ -144,7 +134,6 @@ nav ul li a, nav ul li {
   font-size: .8em;
   display: block;
   padding: 4px 3px;
-  color: #ECF0F1;
   text-align: center;
   position: relative;
   margin: 0 auto;
@@ -174,6 +163,10 @@ nav ul li a, nav ul li {
   font-family: 'Special Elite', cursive;
 }
 
+.author {
+  margin-bottom: 2px;
+}
+
 .PublishDate {
   font-family: fantasy;
   font-size: .8em;
@@ -183,7 +176,6 @@ nav ul li a, nav ul li {
   width: 200px;
   height: 200px;
   max-width: 100%;
-  border-radius: 80%;
   display: inline-block;
   margin: 5px;
 }
@@ -201,14 +193,11 @@ nav ul li a, nav ul li {
 }
 
 .expand, .hide {
-  color: darkblue;
   font-size: .9em;
   font-weight: bold;
   display: inline-block;
   padding: 2px;
 }
-
-
 
 #author {
   font-weight: bold;
@@ -238,6 +227,38 @@ nav li a, nav ul li {
 
 nav ul li a:hover, nav ul li:hover {
   color: #F2B100;
+}
+
+#filter {
+  color: lightgreen;
+}
+
+#navFilter {
+  background-color: #495152;
+}
+
+.filterSubjects {
+  color: #1F9BCC;
+}
+
+.filterSubjects:hover {
+  color:red;
+}
+
+#closeNavFilter {
+  color: lightgreen;
+}
+
+#authorFilter, #categoryFilter {
+  background-color: #495152;
+}
+
+.authorName, .categorySubject {
+  color: #ECF0F1;
+}
+
+.expand, .hide {
+  color: darkblue;
 }
 
 /******************

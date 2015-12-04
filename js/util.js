@@ -4,12 +4,11 @@ function Util() {
     $expand.css('cursor', 'e-resize');
     $expand.click(function(){
       var $self = $(this);
-      $self.parent().siblings().show();
+      $self.parent().siblings().stop().slideDown(200);
       $self.hide();
-      console.log($self.parent().siblings());
     });
   };
-/* CURSOR RESISE USING CSS */
+
   this.hide = function() {
     var $hide = $('.hide');
     $hide.css('cursor', 'w-resize');
@@ -17,7 +16,7 @@ function Util() {
       $('html,body').animate( {scrollTop: $(this).closest('.article').offset().top}, 400);
       var $self = $(this);
       $self.parent().parent().children(':first-child').children().show();
-      $self.parent().parent().children().not(':first-child').hide();
+      $self.parent().parent().children().not(':first-child').stop().slideUp(200);;
     });
   };
 
@@ -25,15 +24,12 @@ function Util() {
 
     $('#filter').click(
     function () {
-      console.log('work');
       $('#navFilter',this).slideDown(200);
-
     }
   );
 
     $('#closeNavFilter').click(
     function(e) {
-      console.log('here');
       $('#navFilter').slideUp(200);
       e.stopPropagation();
     }
