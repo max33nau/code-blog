@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title> </title>
+    <meta charset="utf-8"></meta>
+    <link rel="stylesheet" type="text/css" href="Relative path to CSS file">
+    <link href="Go to google.com/fonts to pick a style of font to display, paste URL here" rel='stylesheet' type='text/css'>
+  </head>
+
+
+  <body>
+    <h1>Create new article</h1>
+
+    <div class="articleContent">
+      <h2>Title</h2>
+      <textarea id="articleTitle" class="textStyle"># Title
+      </textarea>
+
+      <h2>Category</h2>
+      <textarea id="articleCategory" class="textStyle"># Category
+      </textarea>
+
+      <h2>Author</h2>
+      <textarea id="articleAuthor" class="textStyle"># Author
+      </textarea>
+
+      <h2>body</h2>
+      <textarea id="articleBody" class="textStyle"># Article
+      </textarea>
+    </div>
+
+    <div class="output">
+      <h2>Live raw HTML output</h2>
+      <p id="htmlRawOutput" class="pStyle"></p>
+    </div>
+    <div class="output">
+      <h2>Markdown output</h2>
+      <p id="markdownOutput" class="pStyle"></p>
+    </div>
+    <div class="output">
+      <h2>JSON object</h2>
+      <p id="json" class="pStyle"></p>
+    </div>
+
+    <article class="article">
+
+      <header>
+        <h1>{{title}}</h1>
+        <h5 class="author">By <span class="authorSpan">{{author}}</span> </h5>
+        <div class="category" style="display:none;">{{category}}</div>
+        <div class="PublishDate"> Published <time pubdate datetime="2000-01-01"> exactly {{DaysPublishedAgo}} days ago </time> </div>
+      </header>
+      <section class="article-body">{{{body}}} </section>
+      <hr>
+
+    </article>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/marked.min.js"> </script>
+    <script type="text/javascript" src="js/render.js"></script>
+  </body>
+</html>
