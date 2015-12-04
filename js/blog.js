@@ -13,6 +13,7 @@ function Blog() {
   this.article = [];
   this.author = [];
   this.category = [];
+  this.anchorforHandleBar = $('blog_articles');
 
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
@@ -54,7 +55,11 @@ function Blog() {
 
 }
 
-Blog.prototype.toHtml = function(ii) {
+
+
+
+
+/*Blog.prototype.toHtml = function(ii) {
   var $generateArticle = $( 'article.articleTemplate' ).clone();
   $generateArticle.removeClass('articleTemplate');
   $generateArticle.attr( 'class','article' );
@@ -68,7 +73,7 @@ Blog.prototype.toHtml = function(ii) {
   $generateBody.find('p:last').append('<span class="hide"> Hide <-- </span>');
   $generateArticle.append('<hr>');
   return $generateArticle;
-};
+};*/
 
 $(function() {
   var my = {};
@@ -80,9 +85,11 @@ $(function() {
   my.blog.author = my.blog.filterProperty(my.blog.author);
   my.blog.category = my.blog.filterProperty(my.blog.category);
   my.blog.addSubjectstoNav();
-  for( var ii = 0; ii < my.blog.article.length; ii++) {
-    my.$anchor.append(my.blog.toHtml(ii));
-  }
+  my.handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
+  my.html = my.handleBarTemplate(my.blog.article[0]);
+
+  my.$anchor.append(my.html);
+
   my.util.navigation();
   my.util.expand();
   my.util.hide();
