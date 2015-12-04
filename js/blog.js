@@ -13,7 +13,6 @@ function Blog() {
   this.article = [];
   this.author = [];
   this.category = [];
-  this.anchorforHandleBar = $('blog_articles');
 
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
@@ -53,27 +52,15 @@ function Blog() {
     }
   };
 
+  this.manipulateArticleBodyParagraphs = function() {
+    var $generateBody = $('.article-body').each(function(){
+      var $self = $(this);
+      $self.find('p').not(':first').hide();
+      $self.find('p:first').append('<span class="expand"> Read More --> </span>');
+      $self.find('p:last').append('<span class="hide"> Hide <-- </span>');
+    });
+  }
 }
-
-
-
-
-
-/*Blog.prototype.toHtml = function(ii) {
-  var $generateArticle = $( 'article.articleTemplate' ).clone();
-  $generateArticle.removeClass('articleTemplate');
-  $generateArticle.attr( 'class','article' );
-  $generateArticle.find('h1:first').html(this.article[ii].title);
-  $generateArticle.find('.author').html('By ' + '<span class="authorSpan">'+this.article[ii].author+'</span>');
-  $generateArticle.find('.category').html(this.article[ii].category).hide();
-  $generateArticle.find('time').html('exactly ' + this.article[ii].DaysPublishedAgo + ' days ago');
-  var $generateBody = $generateArticle.find('.article-body');
-  $generateBody.html(this.article[ii].body).find('p').not(':first').hide();
-  $generateBody.find('p:first').append('<span class="expand"> Read More --> </span>');
-  $generateBody.find('p:last').append('<span class="hide"> Hide <-- </span>');
-  $generateArticle.append('<hr>');
-  return $generateArticle;
-};*/
 
 $(function() {
   var my = {};
@@ -86,16 +73,18 @@ $(function() {
   my.blog.category = my.blog.filterProperty(my.blog.category);
   my.blog.addSubjectstoNav();
   my.handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
-  my.html = my.handleBarTemplate(my.blog.article[0]);
 
-  my.$anchor.append(my.html);
+  for( var ii = 0; ii < my.blog.article.length; ii++) {
+    my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
+    my.$anchor.append(my.articleToHtml);
+  }
 
+  my.blog.manipulateArticleBodyParagraphs();
   my.util.navigation();
   my.util.expand();
   my.util.hide();
   my.util.filterAuthors();
   my.util.filterCategory();
-
 
   return my;
 
