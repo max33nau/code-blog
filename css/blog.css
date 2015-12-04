@@ -10,10 +10,6 @@ a {
   text-decoration: none;
 }
 
-.articleTemplate {
-  display: none;
-}
-
 
 /******************
       HEADING
@@ -92,6 +88,7 @@ nav ul li a, nav ul li {
 
 #authorFilter {
   width: 130px;
+  border-radius: 5%;
   position:absolute;
   top: 0;
   left: 110%;
@@ -113,6 +110,7 @@ nav ul li a, nav ul li {
 
 #categoryFilter {
   width: 120px;
+  border-radius: 5%;
   position:absolute;
   top: 40%;
   left: 120%;
