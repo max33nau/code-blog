@@ -24,15 +24,12 @@ function Util() {
 
     $('#filter').click(
     function () {
-      console.log('work');
       $('#navFilter',this).slideDown(200);
-
     }
   );
 
     $('#closeNavFilter').click(
     function(e) {
-      console.log('here');
       $('#navFilter').slideUp(200);
       e.stopPropagation();
     }
