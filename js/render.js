@@ -14,26 +14,16 @@ $(function() {
     var authorValue = $articleAuthor.val();
     var bodyValue = $articleBody.val();
 
-    var convertTitle = marked(titleValue);
-    $htmlRawOutput.text(convertTitle);
-    $markdownOutput.html(convertTitle);
-
-    var convertCategory = marked(categoryValue);
-    $htmlRawOutput.text(convertCategory);
-    $markdownOutput.html(convertCategory);
-
-    var convertAuthor = marked(authorValue);
-    $htmlRawOutput.text(convertAuthor);
-    $markdownOutput.html(convertAuthor);
-
     var convertBody = marked(bodyValue);
     $htmlRawOutput.text(convertBody);
     $markdownOutput.html(convertBody);
 
-
-    jsonObject.title = convertTitle;
-    jsonObject.category = convertCategory;
-    jsonObject.author = convertAuthor;
+    var currentDate = new Date();
+    console.log(currentDate);
+    jsonObject.title = titleValue;
+    jsonObject.category = categoryValue;
+    jsonObject.author = authorValue;
+    jsonObject.publishedOn = currentDate.getFullYear() + '-' + (currentDate.getMonth()+1) + '-' + (currentDate.getDay()-1);
     jsonObject.body = convertBody;
 
     var jsonString = $json.text(JSON.stringify(jsonObject));

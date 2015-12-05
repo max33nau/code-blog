@@ -12,21 +12,14 @@
     <h1>Create new article</h1>
 
     <div class="articleContent">
-      <h2>Title</h2>
-      <textarea id="articleTitle" class="textStyle"># Title
-      </textarea>
+      <h2>Title:  <input type="text" id="articleTitle" class="textStyle"></h2>
 
-      <h2>Category</h2>
-      <textarea id="articleCategory" class="textStyle"># Category
-      </textarea>
+      <h2>Category:  <input type="text" id="articleCategory" class="textStyle"></h2>
 
-      <h2>Author</h2>
-      <textarea id="articleAuthor" class="textStyle"># Author
-      </textarea>
+      <h2>Author:  <input type="text" id="articleAuthor" class="textStyle"></h2>
 
       <h2>body</h2>
-      <textarea id="articleBody" class="textStyle"># Article
-      </textarea>
+      <textarea id="articleBody" class="textStyle"># Body</textarea>
     </div>
 
     <div class="output">
@@ -41,19 +34,6 @@
       <h2>JSON object</h2>
       <p id="json" class="pStyle"></p>
     </div>
-
-    <article class="article">
-
-      <header>
-        <h1>{{title}}</h1>
-        <h5 class="author">By <span class="authorSpan">{{author}}</span> </h5>
-        <div class="category" style="display:none;">{{category}}</div>
-        <div class="PublishDate"> Published <time pubdate datetime="2000-01-01"> exactly {{DaysPublishedAgo}} days ago </time> </div>
-      </header>
-      <section class="article-body">{{{body}}} </section>
-      <hr>
-
-    </article>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/marked.min.js"> </script>
