@@ -2,7 +2,7 @@ function Data (rawData) {
   this.title = rawData.title;
   this.category = rawData.category;
   this.author = rawData.author;
-  this.aurthorURL = rawData.authorUrl;
+  this.authorURL = rawData.authorUrl;
   this.publishedOn = rawData.publishedOn;
   this.body = rawData.body;
   this.DaysPublishedAgo = parseInt((new Date() -

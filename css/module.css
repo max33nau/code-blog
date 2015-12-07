@@ -1,5 +1,4 @@
 
-
 /******************
       HEADING
 ******************/
@@ -179,6 +178,7 @@
 .article img:nth-of-type(even) {
   float: right;
 }
+
 
 .article hr {
   clear: both;
