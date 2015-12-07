@@ -1,24 +1,4 @@
 function Util() {
-  this.expand = function() {
-    var $expand = $('.expand');
-    $expand.css('cursor', 'e-resize');
-    $expand.click(function(){
-      var $self = $(this);
-      $self.parent().siblings().stop().slideDown(200);
-      $self.hide();
-    });
-  };
-
-  this.hide = function() {
-    var $hide = $('.hide');
-    $hide.css('cursor', 'w-resize');
-    $hide.click(function(){
-      $('html,body').animate( {scrollTop: $(this).closest('.article').offset().top}, 400);
-      var $self = $(this);
-      $self.parent().parent().children(':first-child').children().show();
-      $self.parent().parent().children().not(':first-child').stop().slideUp(200);;
-    });
-  };
 
   this.navigation = function() {
 
@@ -71,7 +51,8 @@ function Util() {
 
   };
 
-  this.filterAuthors = function() {
+
+  this.filterByAuthor = function() {
     var $authorClicked = $('.search-author-name');
     $authorClicked.click(function() {
       var $textValue = $(this).text();
@@ -86,7 +67,8 @@ function Util() {
     });
   };
 
-  this.filterCategory = function() {
+
+  this.filterByCategory = function() {
     var $categoryClicked = $('.search-category-subject');
     $categoryClicked.click(function() {
       var $textValue = $(this).text();
