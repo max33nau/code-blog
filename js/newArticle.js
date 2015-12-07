@@ -3,6 +3,7 @@ $(function() {
   var $articleTitle = $('#articleTitle');
   var $articleCategory = $('#articleCategory');
   var $articleAuthor = $('#articleAuthor');
+  var $articleAuthorURL = $('#articleAuthorUrl');
   var $articleBody = $('#articleBody');
   var $htmlRawOutput = $('#htmlRawOutput');
   var $livePreview = $('#livePreview');
@@ -15,6 +16,7 @@ $(function() {
     var titleValue = $articleTitle.val();
     var categoryValue = $articleCategory.val();
     var authorValue = $articleAuthor.val();
+    var authorUrlValue = $articleAuthorURL.val();
     var bodyValue = $articleBody.val();
 
     /**** Marked Body Value ****/
@@ -26,6 +28,7 @@ $(function() {
     newArticle.title = titleValue;
     newArticle.category = categoryValue;
     newArticle.author = authorValue;
+    newArticle.authorURL = authorUrlValue;
     newArticle.publishedOn = currentDate.getFullYear() + '-' + (currentDate.getMonth()+1) + '-' + (currentDate.getDate());
     newArticle.body = markBody;
     newArticle.DaysPublishedAgo = parseInt((new Date() -
@@ -43,6 +46,7 @@ $(function() {
   $articleTitle.on('input', render);
   $articleCategory.on('input', render);
   $articleAuthor.on('input', render);
+  $articleAuthorURL.on('input',render);
   $articleBody.on('input', render);
 
   render();
