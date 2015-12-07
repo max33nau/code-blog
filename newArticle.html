@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Create New Blog Article</title>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> </meta>
+    <link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/blog.css">
+  </head>
+
+
+  <body>
+    <header>
+    <h1>Create new article</h1>
+  </header>
+    <div class="articleContent">
+      <h2>Title:  <input type="text" id="articleTitle" value="Title" placeholder="Article Title Goes Here" class="textStyle"></h2>
+
+      <h2>Author:  <input type="text" id="articleAuthor" value="Author" placeholder="Article Author Goes Here" class="textStyle"></h2>
+
+      <h2>Category:  <input type="text" id="articleCategory" placeholder="Article Category Goes Here" class="textStyle"></h2>
+
+      <h2>Body:  </h2>
+      <textarea id="articleBody" class="textStyle">Body of Article Goes Here</textarea>
+    </div>
+
+    <div class="output">
+      <h2>Live raw HTML output</h2>
+      <p id="htmlRawOutput" class="pStyle"></p>
+    </div>
+    <div class="output">
+      <h2>Live Preview</h2>
+      <p id="livePreview" class="pStyle"></p>
+    </div>
+    <div class="output">
+      <h2>JSON object</h2>
+      <p id="jsonObject" class="pStyle"></p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">></script>
+    <script id="handleBarTemplate" type="text/template">
+
+          <article class="article">
+
+            <header>
+              <h1>{{{title}}}</h1>
+              <h5 class="author">By <span class="authorSpan">{{{author}}}</span> </h5>
+              <div class="category" style="display:none;">{{category}}</div>
+              <div class="PublishDate"> Published <time pubdate datetime="2000-01-01"> exactly {{DaysPublishedAgo}} days ago </time> </div>
+            </header>
+            <section class="article-body">{{{body}}} </section>
+            <hr>
+
+          </article>
+
+    </script>
+    <script language="javascript" type="text/javascript" src="js/handlebars-v4.0.5.js"> </script>
+    <script language="javascript" type="text/javascript" src="js/marked.min.js"> </script>
+    <script type="text/javascript" src="js/newArticle.js"></script>
+  </body>
+</html>

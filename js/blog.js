@@ -1,13 +1,13 @@
 function Data (rawData) {
-    this.title = rawData.title;
-    this.category = rawData.category;
-    this.author = rawData.author;
-    this.aurthorURL = rawData.authorUrl;
-    this.publishedOn = rawData.publishedOn;
-    this.body = rawData.body;
-    this.DaysPublishedAgo = parseInt((new Date() -
-    new Date(rawData.publishedOn))/60/60/24/1000);
-  }
+  this.title = rawData.title;
+  this.category = rawData.category;
+  this.author = rawData.author;
+  this.aurthorURL = rawData.authorUrl;
+  this.publishedOn = rawData.publishedOn;
+  this.body = rawData.body;
+  this.DaysPublishedAgo = parseInt((new Date() -
+  new Date(rawData.publishedOn))/60/60/24/1000);
+}
 
 function Blog() {
   this.article = [];
@@ -52,39 +52,42 @@ function Blog() {
     }
   };
 
-  this.manipulateArticleBodyParagraphs = function() {
-    var $generateBody = $('.article-body').each(function(){
-      var $self = $(this);
-      $self.find('p').not(':first').hide();
-      $self.find('p:first').append('<span class="expand"> Read More --> </span>');
-      $self.find('p:last').append('<span class="hide"> Hide <-- </span>');
-    });
-  }
 }
 
 $(function() {
+
+  /**** Initialize Objects ****/
   var my = {};
   my.$anchor = $('#blog_articles');
   my.util = new Util();
   my.blog = new Blog();
+
+
+  /**** Sort and Filter Raw Data ****/
   my.blog.generateObjectArray(blog.rawData);
   my.blog.sortArrays();
   my.blog.author = my.blog.filterProperty(my.blog.author);
   my.blog.category = my.blog.filterProperty(my.blog.category);
   my.blog.addSubjectstoNav();
-  my.handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
 
+  /**** Add Articles to DOM using Handlebars ****/
+  my.handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
   for( var ii = 0; ii < my.blog.article.length; ii++) {
     my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
     my.$anchor.append(my.articleToHtml);
   }
 
-  my.blog.manipulateArticleBodyParagraphs();
-  my.util.navigation();
+  /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
+  my.util.manipulateArticleBodyParagraphs();
   my.util.expand();
   my.util.hide();
-  my.util.filterAuthors();
-  my.util.filterCategory();
+
+  /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
+  my.util.navigation();
+  my.util.filterByAuthor();
+  my.util.filterByCategory();
+
+
 
   return my;
 

@@ -1,4 +1,13 @@
 function Util() {
+  this.manipulateArticleBodyParagraphs = function() {
+    var $generateBody = $('.article-body').each(function(){
+      var $self = $(this);
+      $self.find('p').not(':first').hide();
+      $self.find('p:first').append('<span class="expand"> Read More --> </span>');
+      $self.find('p:last').append('<span class="hide"> Hide <-- </span>');
+    });
+  };
+
   this.expand = function() {
     var $expand = $('.expand');
     $expand.css('cursor', 'e-resize');
@@ -71,7 +80,7 @@ function Util() {
 
   };
 
-  this.filterAuthors = function() {
+  this.filterByAuthor = function() {
     var $authorClicked = $('.authorName');
     $authorClicked.click(function() {
       var $textValue = $(this).text();
@@ -86,7 +95,7 @@ function Util() {
     });
   };
 
-  this.filterCategory = function() {
+  this.filterByCategory = function() {
     var $categoryClicked = $('.categorySubject');
     $categoryClicked.click(function() {
       var $textValue = $(this).text();
