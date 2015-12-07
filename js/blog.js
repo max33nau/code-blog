@@ -52,6 +52,36 @@ function Blog() {
     }
   };
 
+  this.manipulateArticleBodyParagraphs = function() {
+    var $generateBody = $('.article-body').each(function(){
+      var $self = $(this);
+      $self.find('p').not(':first').hide();
+      $self.find('p:first').append('<span class="expand"> Read More --> </span>');
+      $self.find('p:last').append('<span class="hide"> Hide <-- </span>');
+    });
+  };
+
+  this.expand = function() {
+    var $expand = $('.expand');
+    $expand.css('cursor', 'e-resize');
+    $expand.click(function(){
+      var $self = $(this);
+      $self.parent().siblings().stop().slideDown(200);
+      $self.hide();
+    });
+  };
+
+  this.hide = function() {
+    var $hide = $('.hide');
+    $hide.css('cursor', 'w-resize');
+    $hide.click(function(){
+      $('html,body').animate( {scrollTop: $(this).closest('.article').offset().top}, 400);
+      var $self = $(this);
+      $self.parent().parent().children(':first-child').children().show();
+      $self.parent().parent().children().not(':first-child').stop().slideUp(200);;
+    });
+  };
+
 }
 
 $(function() {
@@ -78,9 +108,9 @@ $(function() {
   }
 
   /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
-  my.util.manipulateArticleBodyParagraphs();
-  my.util.expand();
-  my.util.hide();
+  my.blog.manipulateArticleBodyParagraphs();
+  my.blog.expand();
+  my.blog.hide();
 
   /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
   my.util.navigation();
