@@ -1,0 +1,25 @@
+/******************
+  MEDIA QUERIES
+******************/
+
+@media screen and (max-width: 400px) {
+  .site-Nav-tab {
+    display: block;
+  }
+
+  #authorFilter {
+    width: 100px;
+    left: 95%;
+  }
+
+  #categoryFilter {
+    width: 100px;
+    left: 95%;
+  }
+
+  .search-author-name {
+    font-size: .7em;
+    width: 90px;
+  }
+
+}

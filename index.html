@@ -5,32 +5,37 @@
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> </meta>
     <link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/blog.css">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/module.css">
+    <link rel="stylesheet" type="text/css" href="css/state.css">
+    <link rel="stylesheet" type="text/css" href="css/changing-state.css">
+
 
   </head>
 
 
   <body>
 
-      <header id="mainHeader">
-        <h1 id="mainHeaderText"> Max Jacobsen's Blog of Randomness </h1>
+      <header class="site-Header">
+        <h1 class="site-Header-headings site-HeaderText-h1"> Max Jacobsen's Blog of Randomness </h1>
       </header>
 
-      <nav>
-        <ul>
-          <li id='navArticles'> <img class="navicons" src="img/document.png">  Articles (All)  </li>
-          <li id='navAboutMe'> <img class="navicons" src="img/hire_me.png"> About Me </li>
-          <li> <a href="https://github.com/max33nau" target="_blank"> <img class="navicons" src="img/github.png"> Github </a> </li>
-          <li> <a href="https://www.linkedin.com/in/maxjacobsen33" target="_blank"><img class="navicons" src="img/linkedin.png"> Linkedin </a> </li>
-          <li id="filter"> <img class="navicons" src="img/edit_find.png"> Search By:
-            <ul id="navFilter">
-              <li class="filterSubjects"> Author-->
-                <ul id="authorFilter">  </ul>
+      <nav class="site-Nav">
+        <ul class="site-Nav-list">
+          <li id="navArticles" class="site-Nav-listItem site-Nav-tab"> <img class="site-Nav-listIcon" src="img/document.png">  Articles (All)  </li>
+          <li id="navAboutMe" class="site-Nav-listItem site-Nav-tab"> <img class="site-Nav-listIcon" src="img/hire_me.png"> About Me </li>
+          <li class="site-Nav-listItem site-Nav-tab"> <a href="https://github.com/max33nau" target="_blank"> <img class="site-Nav-listIcon" src="img/github.png"> Github </a> </li>
+          <li class="site-Nav-listItem site-Nav-tab"> <a href="https://www.linkedin.com/in/maxjacobsen33" target="_blank"><img class="site-Nav-listIcon" src="img/linkedin.png"> Linkedin </a> </li>
+
+          <li id="site-Nav-filterArticles" class="site-Nav-listItem site-Nav-search"> <img class="site-Nav-listIcon" src="img/edit_find.png"> Search By:
+            <ul id="filterList" class="site-Nav-searchList">
+              <li class="searchList-item"> Author-->
+                <ul id="authorFilter" class="searchList-author">  </ul>
               </li>
-              <li class="filterSubjects"> Category-->
-                <ul id="categoryFilter"> </ul>
+              <li class="searchList-item"> Category-->
+                <ul id="categoryFilter" class="searchList-category"> </ul>
               </li>
-              <li class="filterSubjects" id="closeNavFilter"> ^ Close ^ </li>
+              <li class="searchList-item" id="closeNavFilter"> ^ Close ^ </li>
             </ul>
           </li>
         </ul>

@@ -7,7 +7,7 @@ function Data (rawData) {
   this.body = rawData.body;
   this.DaysPublishedAgo = parseInt((new Date() -
   new Date(rawData.publishedOn))/60/60/24/1000);
-}
+};
 
 function Blog() {
   this.article = [];
@@ -45,10 +45,10 @@ function Blog() {
     var $authorFilter = $('#authorFilter');
     var $categoryFilter = $('#categoryFilter');
     for (var ii = 0; ii, ii < this.author.length; ii++) {
-      $authorFilter.append('<li class="authorName">' + this.author[ii] + '</li>');
+      $authorFilter.append('<li class="search-author-name">' + this.author[ii] + '</li>');
     }
     for (var ii = 0; ii, ii < this.category.length; ii++) {
-      $categoryFilter.append('<li class="categorySubject">' + this.category[ii] + '</li>');
+      $categoryFilter.append('<li class="search-category-subject">' + this.category[ii] + '</li>');
     }
   };
 
@@ -86,8 +86,6 @@ $(function() {
   my.util.navigation();
   my.util.filterByAuthor();
   my.util.filterByCategory();
-
-
 
   return my;
 

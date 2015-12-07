@@ -31,20 +31,20 @@ function Util() {
 
   this.navigation = function() {
 
-    $('#filter').click(
+    $('#site-Nav-filterArticles').click(
     function () {
-      $('#navFilter',this).slideDown(200);
+      $('#filterList',this).slideDown(200);
     }
   );
 
     $('#closeNavFilter').click(
     function(e) {
-      $('#navFilter').slideUp(200);
+      $('#filterList').slideUp(200);
       e.stopPropagation();
     }
    );
 
-    $('.filterSubjects').hover(
+    $('.searchList-item').hover(
     function () {
       $('#authorFilter', this).stop().slideDown(100);
     },
@@ -53,7 +53,7 @@ function Util() {
     }
   );
 
-    $('.filterSubjects').hover(
+    $('.searchList-item').hover(
     function () {
       $('#categoryFilter', this).stop().slideDown(100);
     },
@@ -65,23 +65,24 @@ function Util() {
     $('#navAboutMe').click(function() {
       $('#AboutMe').show();
       $('.article').hide();
-      $('#filter').hide();
+      $('#site-Nav-filterArticles').hide();
     });
 
     $('#navArticles').click(function() {
       $('#AboutMe').hide();
       $('.article').show();
-      $('#filter').show();
+      $('#site-Nav-filterArticles').show();
     });
 
     $('.article').click(function() {
-      $('#navFilter').slideUp(200);
+      $('#filterList').slideUp(200);
     });
 
   };
 
+
   this.filterByAuthor = function() {
-    var $authorClicked = $('.authorName');
+    var $authorClicked = $('.search-author-name');
     $authorClicked.click(function() {
       var $textValue = $(this).text();
       $('.author').find('.authorSpan').each(function() {
@@ -95,8 +96,9 @@ function Util() {
     });
   };
 
+
   this.filterByCategory = function() {
-    var $categoryClicked = $('.categorySubject');
+    var $categoryClicked = $('.search-category-subject');
     $categoryClicked.click(function() {
       var $textValue = $(this).text();
       $('.category').each(function() {
