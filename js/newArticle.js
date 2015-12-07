@@ -5,6 +5,7 @@ $(function() {
   var $articleAuthor = $('#articleAuthor');
   var $articleAuthorURL = $('#articleAuthorUrl');
   var $articleBody = $('#articleBody');
+  var $htmlRaw = $('#htmlRaw');
   var $htmlRawOutput = $('#htmlRawOutput');
   var $livePreview = $('#livePreview');
   var $jsonObject = $('#jsonObject');
@@ -19,7 +20,11 @@ $(function() {
     var authorUrlValue = $articleAuthorURL.val();
     var bodyValue = $articleBody.val();
 
-    /**** Marked Body Value ****/
+    /**** Marked Values ****/
+    var markTitle = marked(titleValue);
+    var markCategory = marked(categoryValue);
+    var markAuthor = marked(authorValue);
+    var markAuthorUrl = marked(authorUrlValue);
     var markBody = marked(bodyValue);
 
     /**** Create New Article Object ****/
@@ -38,6 +43,12 @@ $(function() {
     var handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
     var articleToHtml = handleBarTemplate(newArticle);
     $livePreview.html(articleToHtml);
+    $livePreview.find('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });
+
+    /**** HTML RAW OUTPUT ****/
+    $htmlRawOutput.text(articleToHtml);
 
     /**** JSON string that will be able to be put in rawData ****/
     var jsonString = $jsonObject.text(JSON.stringify(newArticle));
