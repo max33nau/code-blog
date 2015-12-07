@@ -1,0 +1,193 @@
+
+
+/******************
+      HEADING
+******************/
+
+/* Modules */
+.site-Header-headings {
+  text-align: center;
+}
+
+.site-HeaderText-h1 {
+  font-family: 'Special Elite', cursive;
+  margin: 20px 0;
+  padding: 5px;
+  font-size: 1.75em;
+}
+
+.site-Header {
+  background-color: #2C3E50;
+  color: #ECF0F1;
+}
+
+
+/******************
+  SITE NAVIGATION
+******************/
+
+
+/* Modules */
+.site-Nav, .site-Nav a {
+  background-color: #495152;
+  color: #ECF0F1;
+}
+.site-Nav-list {
+  text-align: center;
+  font-family: 'Special Elite', cursive;
+}
+
+.site-Nav-listIcon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.site-Nav-tab {
+  display: inline-block;
+  padding: 5px 7px;
+}
+
+.site-Nav-search {
+  padding-top: 5px;
+  display:block;
+  width: 110px;
+  max-width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  color: lightgreen;
+}
+
+
+
+/******************
+    NAV SEARCH
+******************/
+
+/* Modules */
+.site-Nav-searchList {
+  width: 200px;
+  position: relative;
+  list-style: none;
+  text-align: center;
+  background-color: #495152;
+  color: #ECF0F1;
+}
+
+.searchList-item {
+  width: 200px;
+  max-width: 100%;
+  padding: 5px;
+  margin: 0 auto;
+  display: block;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+#closeNavFilter {
+  color: lightgreen;
+}
+
+
+/******************
+  SEARCH AUTHOR
+******************/
+
+
+/* Modules */
+.searchList-author {
+  width: 130px;
+  border-radius: 5%;
+  position:absolute;
+  top: 0;
+  left: 100%;
+  text-align: center;
+  background-color: #495152;
+}
+
+.search-author-name {
+  width:110px;
+  font-size: .8em;
+  padding: 4px 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  color: #ECF0F1;
+}
+
+/******************
+  SEARCH CATEGORY
+******************/
+
+/* Modules */
+.searchList-category {
+  width: 100px;
+  border-radius: 5%;
+  position:absolute;
+  top: 40%;
+  left: 105%;
+  text-align: center;
+  background-color: #495152;
+}
+
+.search-category-subject {
+  width:100px;
+  font-size: .8em;
+  padding: 4px 3px;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  color: #ECF0F1;
+}
+
+
+/******************
+     About Me
+******************/
+
+
+/******************
+     Articles
+******************/
+
+/* Modules */
+.article h1 {
+  font-family: 'Special Elite', cursive;
+}
+
+.author {
+  margin-bottom: 2px;
+}
+
+.PublishDate {
+  font-family: fantasy;
+  font-size: .8em;
+}
+
+.article img {
+  width: 200px;
+  height: 200px;
+  max-width: 100%;
+  display: inline-block;
+  margin: 5px;
+}
+
+.article img:nth-of-type(odd) {
+  float: left;
+}
+
+.article img:nth-of-type(even) {
+  float: right;
+}
+
+.article hr {
+  clear: both;
+}
+
+.expand, .hide {
+  font-size: .9em;
+  font-weight: bold;
+  display: inline-block;
+  padding: 2px;
+  color: darkblue;
+}

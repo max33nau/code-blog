@@ -1,0 +1,21 @@
+/* State */
+.search-category-subject:hover {
+  color: #F2B100;
+}
+
+
+/* State  */
+.search-author-name:hover {
+  color: #F2B100;
+}
+
+
+/* State */
+.searchList-item:hover {
+  color:red;
+}
+
+/* State */
+.site-Nav-tab:hover, .site-Nav-tab a:hover{
+  color: #F2B100;
+}
