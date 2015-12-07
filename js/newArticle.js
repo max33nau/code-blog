@@ -1,64 +1,85 @@
+function NewArticle() {
+  this.$articleTitle = $('#articleTitle');
+  this.$articleCategory = $('#articleCategory');
+  this.$articleAuthor = $('#articleAuthor');
+  this.$articleAuthorURL = $('#articleAuthorUrl');
+  this.$articleBody = $('#articleBody');
+  this.$htmlRaw = $('#htmlRaw');
+  this.$htmlRawOutput = $('#htmlRawOutput');
+  this.$livePreview = $('#livePreview');
+  this.$jsonObject = $('#jsonObject');
+  this.articleToBePublished = {};
 
-$(function() {
-  var $articleTitle = $('#articleTitle');
-  var $articleCategory = $('#articleCategory');
-  var $articleAuthor = $('#articleAuthor');
-  var $articleAuthorURL = $('#articleAuthorUrl');
-  var $articleBody = $('#articleBody');
-  var $htmlRaw = $('#htmlRaw');
-  var $htmlRawOutput = $('#htmlRawOutput');
-  var $livePreview = $('#livePreview');
-  var $jsonObject = $('#jsonObject');
-  var newArticle = {};
+  this.render = function() {
+      /**** Get Values From Text Inputs ****/
+      console.log(this.$articleTitle.val()+ "render");
+      var titleValue = this.$articleTitle.val();
+      var categoryValue = this.$articleCategory.val();
+      var authorValue = this.$articleAuthor.val();
+      var authorUrlValue = this.$articleAuthorURL.val();
+      var bodyValue = this.$articleBody.val();
 
-  function render() {
+      /**** Marked Values ****/
+      var markBody = marked(bodyValue);
 
-    /**** Get Values From Text Inputs ****/
-    var titleValue = $articleTitle.val();
-    var categoryValue = $articleCategory.val();
-    var authorValue = $articleAuthor.val();
-    var authorUrlValue = $articleAuthorURL.val();
-    var bodyValue = $articleBody.val();
+      /**** Create New Article Object ****/
+      var currentDate = new Date();
+      console.log(currentDate);
+      this.articleToBePublished.title = titleValue;
+      this.articleToBePublished.category = categoryValue;
+      this.articleToBePublished.author = authorValue;
+      this.articleToBePublished.authorURL = authorUrlValue;
+      this.articleToBePublished.publishedOn = currentDate.getFullYear() + '-' + (currentDate.getMonth()+1) + '-' + (currentDate.getDate());
+      this.articleToBePublished.body = markBody;
+      this.articleToBePublished.DaysPublishedAgo = parseInt((new Date() -
+      new Date(this.articleToBePublished.publishedOn))/60/60/24/1000);
 
-    /**** Marked Values ****/
-    var markTitle = marked(titleValue);
-    var markCategory = marked(categoryValue);
-    var markAuthor = marked(authorValue);
-    var markAuthorUrl = marked(authorUrlValue);
-    var markBody = marked(bodyValue);
+      /**** Live preview of what article will look on blog ****/
+      var handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
+      var articleToHtml = handleBarTemplate(this.articleToBePublished);
+      this.$livePreview.html(articleToHtml);
+      this.$livePreview.find('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
 
-    /**** Create New Article Object ****/
-    var currentDate = new Date();
-    console.log(currentDate);
-    newArticle.title = titleValue;
-    newArticle.category = categoryValue;
-    newArticle.author = authorValue;
-    newArticle.authorURL = authorUrlValue;
-    newArticle.publishedOn = currentDate.getFullYear() + '-' + (currentDate.getMonth()+1) + '-' + (currentDate.getDate());
-    newArticle.body = markBody;
-    newArticle.DaysPublishedAgo = parseInt((new Date() -
-    new Date(newArticle.publishedOn))/60/60/24/1000);
+      /**** HTML RAW OUTPUT ****/
+      this.$htmlRawOutput.text(articleToHtml);
 
-    /**** Live preview of what article will look on blog ****/
-    var handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
-    var articleToHtml = handleBarTemplate(newArticle);
-    $livePreview.html(articleToHtml);
-    $livePreview.find('pre code').each(function(i, block) {
-      hljs.highlightBlock(block);
-    });
+      /**** JSON string that will be able to be put in rawData ****/
+      var jsonString = this.$jsonObject.text(JSON.stringify(this.articleToBePublished));
+    }
 
-    /**** HTML RAW OUTPUT ****/
-    $htmlRawOutput.text(articleToHtml);
-
-    /**** JSON string that will be able to be put in rawData ****/
-    var jsonString = $jsonObject.text(JSON.stringify(newArticle));
+    this.addEventListener = function() {
+      var $articleTitleChanged = this.$articleTitle;
+       $articleTitleChanged.on('input', function() {
+         this.$articleTitle = $(this).val();
+         article.new.render();
+       });
+       var $articleAuthorChanged = this.$articleAuthor;
+        $articleAuthorChanged.on('input', function() {
+          this.$articleAuthor = $(this).val();
+          article.new.render();
+        });
+        var $articleAuthorURLChanged = this.$articleAuthorURL;
+         $articleAuthorURLChanged.on('input', function() {
+           this.$articleAuthorURL = $(this).val();
+           article.new.render();
+         });
+         var $articleBodyChanged = this.$articleBody;
+          $articleBodyChanged.on('input', function() {
+            this.$articleBody = $(this).val();
+            article.new.render();
+          });
+    }
   }
 
-  $articleTitle.on('input', render);
-  $articleCategory.on('input', render);
-  $articleAuthor.on('input', render);
-  $articleAuthorURL.on('input',render);
-  $articleBody.on('input', render);
+var article = {};
 
-  render();
+$(function() {
+
+  article.new = new NewArticle();
+  article.new.render();
+  article.new.addEventListener();
+
+
 });
