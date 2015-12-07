@@ -1,0 +1,119 @@
+/******************
+      GENERAL
+******************/
+body {
+  font-family: sans-serif;
+  background-color: #E4EBF5;
+}
+
+a {
+  text-decoration: none;
+}
+
+/******************
+      HEADING
+******************/
+
+/* Base */
+.site-Header {
+  float: left;
+  margin: -5px 0 10px 0;
+  padding: 5px 0 0 0;
+  width: 100%;
+}
+
+/******************
+  SITE NAVIGATION
+******************/
+
+/* Base */
+.site-Nav {
+  padding: 10px 0;
+  margin: 10px 0 0 0;
+  width: 100%;
+}
+
+.site-Nav-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.site-Nav-listIcon {
+  display: inline;
+  max-width: 100%;
+}
+
+.site-Nav-listItem {
+  cursor: pointer;
+}
+
+.site-Nav-search {
+  max-width: 100%;
+}
+
+
+/******************
+    NAV SEARCH
+******************/
+
+/* Base */
+.site-Nav-searchList {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+
+/******************
+  SEARCH AUTHOR
+******************/
+
+/* Base */
+.searchList-author {
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+
+.search-author-name {
+  max-width: 100%;
+  display: block;
+}
+
+/******************
+  SEARCH CATEGORY
+******************/
+
+/* Base */
+.searchList-category {
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+
+.search-category-subject{
+  max-width: 100%;
+  display: block;
+}
+
+/******************
+     About Me
+******************/
+#AboutMe {
+  width: 960px;
+  max-width: 90%;
+  margin: 5px auto;
+  display:none;
+}
+
+/******************
+     Articles
+******************/
+
+/* Base */
+.article {
+  width: 960px;
+  max-width: 90%;
+  margin: 5px auto;
+}
