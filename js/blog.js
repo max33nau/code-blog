@@ -101,11 +101,14 @@ $(function() {
   my.blog.addSubjectstoNav();
 
   /**** Add Articles to DOM using Handlebars ****/
-  my.handleBarTemplate = Handlebars.compile($('#handleBarTemplate').html());
-  for( var ii = 0; ii < my.blog.article.length; ii++) {
-    my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
-    my.$anchor.append(my.articleToHtml);
-  }
+  $.get('templates/articleTemplate.html', function(articleTemplate) {
+    my.handleBarTemplate = Handlebars.compile(articleTemplate);
+    for( var ii = 0; ii < my.blog.article.length; ii++) {
+      my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
+      my.$anchor.append(my.articleToHtml);
+    }
+  });
+
 
   /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
   my.blog.manipulateArticleBodyParagraphs();
