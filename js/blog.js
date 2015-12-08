@@ -4,9 +4,20 @@ function Data (rawData) {
   this.author = rawData.author;
   this.authorURL = rawData.authorUrl;
   this.publishedOn = rawData.publishedOn;
-  this.body = rawData.body;
   this.DaysPublishedAgo = parseInt((new Date() -
   new Date(rawData.publishedOn))/60/60/24/1000);
+  this.convertMarkDown = function() {
+    var body;
+    if(rawData.body) {
+       body= rawData.body;
+    } else if (!rawData.body) {
+      body = marked(rawData.markdown)
+    } else {
+      console.log("Not Here");
+    }
+    return body;
+  }
+  this.body = this.convertMarkDown();
 };
 
 function Blog() {
@@ -55,9 +66,12 @@ function Blog() {
   this.manipulateArticleBodyParagraphs = function() {
     var $generateBody = $('.article-body').each(function(){
       var $self = $(this);
-      $self.find('p').not(':first').hide();
+      console.log($self.first())
+      $self.children().hide();
       $self.find('p:first').append('<span class="expand"> Read More --> </span>');
-      $self.find('p:last').append('<span class="hide"> Hide <-- </span>');
+      $self.find(':last-child').append('<span class="hide"> Hide <-- </span>');
+      $self.find('p:first').show().prevUntil('p:first').show();
+      $self.find('.hide').hide();
     });
   };
 
@@ -66,7 +80,8 @@ function Blog() {
     $expand.css('cursor', 'e-resize');
     $expand.click(function(){
       var $self = $(this);
-      $self.parent().siblings().stop().slideDown(200);
+      $self.parent().siblings().stop().slideDown(300);
+      $self.parent().siblings().find('.hide').show();
       $self.hide();
     });
   };
@@ -75,10 +90,11 @@ function Blog() {
     var $hide = $('.hide');
     $hide.css('cursor', 'w-resize');
     $hide.click(function(){
-      $('html,body').animate( {scrollTop: $(this).closest('.article').offset().top}, 400);
+      $('html,body').animate( {scrollTop: $(this).closest('.article-body').offset().top}, 400);
       var $self = $(this);
-      $self.parent().parent().children(':first-child').children().show();
-      $self.parent().parent().children().not(':first-child').stop().slideUp(200);;
+      $self.parent().hide();
+      $self.parent().parent().children().not('p:first').stop().slideUp(300);
+      $self.parent().siblings().find(".expand").show();
     });
   };
 
@@ -91,10 +107,36 @@ $(function() {
   my.$anchor = $('#blog_articles');
   my.util = new Util();
   my.blog = new Blog();
+  my.eTag;
+  my.articleData;
 
+  $.ajax({
+    type: 'HEAD',
+    url: 'blogArticles.json'
+  })
+    .done(function(data,server,xhr){
+      my.eTag = xhr.getResponseHeader('eTag');
+      console.log('wahoo the eTag is: ' + my.eTag);
+    })
+    .fail(function(){
+      console.log('you suck');
+    })
+
+  localStorage.setItem("uniqueEtag", my.eTag);
+
+  $.getJSON('blogArticles.json', function(data) {
+    localStorage.setItem('blogData', JSON.stringify(data));
+  }) .success(function() {
+    console.log("Data Loaded")
+  })
+    .fail(function(){
+      console.log("HAHAH didn't work")
+    });
+
+  my.articleData = JSON.parse(localStorage.getItem('blogData'));
 
   /**** Sort and Filter Raw Data ****/
-  my.blog.generateObjectArray(blog.rawData);
+  my.blog.generateObjectArray(my.articleData);
   my.blog.sortArrays();
   my.blog.author = my.blog.filterProperty(my.blog.author);
   my.blog.category = my.blog.filterProperty(my.blog.category);
@@ -107,13 +149,15 @@ $(function() {
       my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
       my.$anchor.append(my.articleToHtml);
     }
+    my.blog.manipulateArticleBodyParagraphs();
+    my.blog.expand();
+    my.blog.hide();
   });
 
+  console.log('Here')
 
   /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
-  my.blog.manipulateArticleBodyParagraphs();
-  my.blog.expand();
-  my.blog.hide();
+
 
   /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
   my.util.navigation();
