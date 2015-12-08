@@ -9,14 +9,14 @@ function Data (rawData) {
   this.convertMarkDown = function() {
     var body;
     if(rawData.body) {
-       body= rawData.body;
+      body= rawData.body;
     } else if (!rawData.body) {
-      body = marked(rawData.markdown)
+      body = marked(rawData.markdown);
     } else {
-      console.log("Not Here");
+      console.log('Not Here');
     }
     return body;
-  }
+  };
   this.body = this.convertMarkDown();
 };
 
@@ -90,16 +90,32 @@ function Blog() {
     var $hide = $('.hide');
     $hide.css('cursor', 'w-resize');
     $hide.click(function(){
-      $('html,body').animate( {scrollTop: $(this).closest('.article-body').offset().top}, 400);
+      $('html,body').animate( {scrollTop: $(this).closest('.article-body').parent().offset().top}, 400);
       var $self = $(this);
       $self.parent().hide();
       $self.parent().parent().children().not('p:first').stop().slideUp(300);
-      $self.parent().siblings().find(".expand").show();
+      $self.parent().siblings().find('.expand').show();
     });
   };
 
 }
 
+function Ajax() {
+  this.getJSONhead = function() {
+    return $.ajax({
+      type: 'HEAD',
+      url: 'blogArticles.json'
+    });
+  };
+
+  this.getJSONdata = function() {
+    return $.getJSON('blogArticles.json', function(data) {
+      localStorage.setItem('blogData', JSON.stringify(data));
+    });
+  };
+
+
+}
 $(function() {
 
   /**** Initialize Objects ****/
@@ -108,69 +124,67 @@ $(function() {
   my.$anchor = $('#blog_articles');
   my.util = new Util();
   my.blog = new Blog();
+  my.ajax = new Ajax();
   my.eTag;
   my.articleData;
 
-  $.ajax({
-    type: 'HEAD',
-    url: 'blogArticles.json'
-  })
-    .success(function(data,server,xhr){
-      my.eTag = xhr.getResponseHeader('eTag');
-      console.log(' eTag is: ' + my.eTag);
-      console.log('localStorage eTag is: ' +localStorage.getItem("uniqueEtag"));
-      if(my.eTag !== localStorage.getItem('uniqueEtag')) {
 
-        localStorage.setItem("uniqueEtag", my.eTag);
-        
-        $.getJSON('blogArticles.json', function(data) {
-          localStorage.setItem('blogData', JSON.stringify(data));
-        }) .done(function() {
-          console.log("Data Loaded")
-        })
-          .fail(function(){
-            console.log("HAHAH didn't work")
-          });
-
-      } else {
-        my.articleData = JSON.parse(localStorage.getItem('blogData'));
-        /**** Sort and Filter Raw Data ****/
-        my.blog.generateObjectArray(my.articleData);
-        my.blog.sortArrays();
-        my.blog.author = my.blog.filterProperty(my.blog.author);
-        my.blog.category = my.blog.filterProperty(my.blog.category);
-        my.blog.addSubjectstoNav();
-        console.log("Data Loaded")
-        console.log('they are the same')
+  my.generateJSONarticles=function() {
+    my.articleData = JSON.parse(localStorage.getItem('blogData'));
+      /**** Sort and Filter Raw Data ****/
+    my.blog.generateObjectArray(my.articleData);
+    my.blog.sortArrays();
+    my.blog.author = my.blog.filterProperty(my.blog.author);
+    my.blog.category = my.blog.filterProperty(my.blog.category);
+    my.blog.addSubjectstoNav();
+      /**** Add Articles to DOM using Handlebars ****/
+    $.get('templates/articleTemplate.html', function(articleTemplate) {
+      my.handleBarTemplate = Handlebars.compile(articleTemplate);
+      for( var ii = 0; ii < my.blog.article.length; ii++) {
+        my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
+        my.$anchor.append(my.articleToHtml);
       }
-    })
-    .fail(function(){
-      console.log('you suck');
-    })
+      /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
+      my.blog.manipulateArticleBodyParagraphs();
+      my.blog.expand();
+      my.blog.hide();
+    });
+
+    /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
+    my.util.navigation();
+    my.util.filterByAuthor();
+    my.util.filterByCategory();
+
+  };
 
 
+  my.ajax.getJSONhead().done(function(data,server,xhr){
+    my.eTag = xhr.getResponseHeader('eTag');
 
-  /**** Add Articles to DOM using Handlebars ****/
-  $.get('templates/articleTemplate.html', function(articleTemplate) {
-    my.handleBarTemplate = Handlebars.compile(articleTemplate);
-    for( var ii = 0; ii < my.blog.article.length; ii++) {
-      my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
-      my.$anchor.append(my.articleToHtml);
+    if(my.eTag !== localStorage.getItem('uniqueEtag')) {
+      localStorage.setItem('uniqueEtag', my.eTag);
+      my.ajax.getJSONdata().done(function() {
+        console.log('Data Loaded');
+        my.generateJSONarticles();
+      });
+      my.ajax.getJSONdata().fail(function(){
+        console.log('you failed on getting JSON data');
+      });
+    } else {
+      my.articleData = JSON.parse(localStorage.getItem('blogData'));
+      my.generateJSONarticles();
+
     }
-    my.blog.manipulateArticleBodyParagraphs();
-    my.blog.expand();
-    my.blog.hide();
+  });
+  my.ajax.getJSONhead().fail(function(){
+    console.log('you failed on getting JSON head');
   });
 
-  console.log('Here')
-
-  /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
 
 
-  /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
-  my.util.navigation();
-  my.util.filterByAuthor();
-  my.util.filterByCategory();
+
+
+
 
   return my;
 
