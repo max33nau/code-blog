@@ -93,7 +93,7 @@ function Blog() {
       $('html,body').animate( {scrollTop: $(this).closest('.article-body').parent().offset().top}, 400);
       var $self = $(this);
       $self.parent().hide();
-      $self.parent().parent().children().not('p:first').stop().slideUp(300);
+      $self.parent().siblings().nextUntil('p:first').not('p:first').stop().slideUp(200);
       $self.parent().siblings().find('.expand').show();
     });
   };
