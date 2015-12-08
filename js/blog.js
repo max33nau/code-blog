@@ -66,7 +66,7 @@ function Blog() {
   this.manipulateArticleBodyParagraphs = function() {
     var $generateBody = $('.article-body').each(function(){
       var $self = $(this);
-      console.log($self.first())
+
       $self.children().hide();
       $self.find('p:first').append('<span class="expand"> Read More --> </span>');
       $self.find(':last-child').append('<span class="hide"> Hide <-- </span>');
@@ -103,6 +103,7 @@ function Blog() {
 $(function() {
 
   /**** Initialize Objects ****/
+
   var my = {};
   my.$anchor = $('#blog_articles');
   my.util = new Util();
@@ -114,33 +115,40 @@ $(function() {
     type: 'HEAD',
     url: 'blogArticles.json'
   })
-    .done(function(data,server,xhr){
+    .success(function(data,server,xhr){
       my.eTag = xhr.getResponseHeader('eTag');
-      console.log('wahoo the eTag is: ' + my.eTag);
+      console.log(' eTag is: ' + my.eTag);
+      console.log('localStorage eTag is: ' +localStorage.getItem("uniqueEtag"));
+      if(my.eTag !== localStorage.getItem('uniqueEtag')) {
+
+        localStorage.setItem("uniqueEtag", my.eTag);
+        
+        $.getJSON('blogArticles.json', function(data) {
+          localStorage.setItem('blogData', JSON.stringify(data));
+        }) .done(function() {
+          console.log("Data Loaded")
+        })
+          .fail(function(){
+            console.log("HAHAH didn't work")
+          });
+
+      } else {
+        my.articleData = JSON.parse(localStorage.getItem('blogData'));
+        /**** Sort and Filter Raw Data ****/
+        my.blog.generateObjectArray(my.articleData);
+        my.blog.sortArrays();
+        my.blog.author = my.blog.filterProperty(my.blog.author);
+        my.blog.category = my.blog.filterProperty(my.blog.category);
+        my.blog.addSubjectstoNav();
+        console.log("Data Loaded")
+        console.log('they are the same')
+      }
     })
     .fail(function(){
       console.log('you suck');
     })
 
-  localStorage.setItem("uniqueEtag", my.eTag);
 
-  $.getJSON('blogArticles.json', function(data) {
-    localStorage.setItem('blogData', JSON.stringify(data));
-  }) .success(function() {
-    console.log("Data Loaded")
-  })
-    .fail(function(){
-      console.log("HAHAH didn't work")
-    });
-
-  my.articleData = JSON.parse(localStorage.getItem('blogData'));
-
-  /**** Sort and Filter Raw Data ****/
-  my.blog.generateObjectArray(my.articleData);
-  my.blog.sortArrays();
-  my.blog.author = my.blog.filterProperty(my.blog.author);
-  my.blog.category = my.blog.filterProperty(my.blog.category);
-  my.blog.addSubjectstoNav();
 
   /**** Add Articles to DOM using Handlebars ****/
   $.get('templates/articleTemplate.html', function(articleTemplate) {
