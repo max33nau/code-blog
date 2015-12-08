@@ -45,8 +45,9 @@ function Util() {
       $('#site-Nav-filterArticles').show();
     });
 
-    $('.article').click(function() {
-      $('#filterList').slideUp(200);
+    $('#blog_articles').click(function(e) {
+      e.stopPropagation();
+      $('#filterList').stop().slideUp(200);
     });
 
   };
