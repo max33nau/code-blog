@@ -180,12 +180,6 @@ $(function() {
     console.log('you failed on getting JSON head');
   });
 
-
-
-
-
-
-
   return my;
 
 }
