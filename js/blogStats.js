@@ -63,19 +63,10 @@ function Stats() {
     function add(sum, a) {
       return sum + a;
     }
-    totalWords= numberOfWords.reduce(add, 0);
-    console.log(totalWords);
+    totalWords = numberOfWords.reduce(add, 0);
+
     return totalWords;
   }
-
-  this.generateLettersArray = function(articleBodyWithNoHTML, letterArray) {
-
-
-
-  };
-
-
-
 
 
 };
@@ -97,29 +88,12 @@ function Ajax() {
 
 $(function() {
 
-var words = ["Hello", "there", "EVERYONE!"];
-
-function countLetters(w) {
-  return w.length;
-}
-
-var numLettersArray = words.map(countLetters);
-console.log("words = "+words+"  numLettersArray = "+numLettersArray);
-
-function add(sum, a) {
-  return sum + a;
-}
-var total = numLettersArray.reduce(add, 0);
-
-console.log("total ="+total);
-
   my = {};
   my.stats = new Stats();
   my.ajax = new Ajax();
   my.eTag;
   my.rawData;
-  my.totalwordlength ;
-  my.totalLetters;
+
 
 
   my.jsonDataReceived = function() {
@@ -132,8 +106,6 @@ console.log("total ="+total);
     my.stats.generateArrayWithNoHTML(my.stats.articleData,my.stats.bodyArray,'body');
     my.totalNumberWords = my.stats.countTotalNumberOfWords(my.stats.bodyArray,my.stats.totalNumberOfWords);
     $('#totalNumberOfWords').append(my.totalNumberWords);
-    my.totalLetters = my.stats.generateLettersArray(my.stats.bodyArray,my.stats.lettersArray);
-
 
   }
 
