@@ -27,6 +27,8 @@ function Stats() {
   this.articleData = [];
   this.authorArray = [];
   this.bodyArray = [];
+  this.lettersArray = [];
+
 // var article = $(articleData.body).text();
 // var counter = article.slice(' ').length;
 
@@ -53,13 +55,26 @@ function Stats() {
     });
   };
 
-  this.countTotalNumberOfWords = function(articleBodyWithNoHTML) {
-    var totalNumberOfWords = 0;
-    articleBodyWithNoHTML.forEach(function(object){
-      totalNumberOfWords += object.split(/\s+/).length;
-    });
-    return totalNumberOfWords;
+  this.countTotalNumberOfWords = function(articleBodyWithNoHTML,totalWords) {
+    function getNumberOfWords(words){
+      return words.split(/\s+/).length;
+    }
+    var numberOfWords = articleBodyWithNoHTML.map(getNumberOfWords);
+    function add(sum, a) {
+      return sum + a;
+    }
+    totalWords= numberOfWords.reduce(add, 0);
+    console.log(totalWords);
+    return totalWords;
+  }
+
+  this.generateLettersArray = function(articleBodyWithNoHTML, letterArray) {
+
+
+
   };
+
+
 
 
 
@@ -81,12 +96,30 @@ function Ajax() {
 }
 
 $(function() {
+
+var words = ["Hello", "there", "EVERYONE!"];
+
+function countLetters(w) {
+  return w.length;
+}
+
+var numLettersArray = words.map(countLetters);
+console.log("words = "+words+"  numLettersArray = "+numLettersArray);
+
+function add(sum, a) {
+  return sum + a;
+}
+var total = numLettersArray.reduce(add, 0);
+
+console.log("total ="+total);
+
   my = {};
   my.stats = new Stats();
   my.ajax = new Ajax();
   my.eTag;
   my.rawData;
-  my.wordlength;
+  my.totalwordlength ;
+  my.totalLetters;
 
 
   my.jsonDataReceived = function() {
@@ -97,8 +130,9 @@ $(function() {
     $.unique(my.stats.authorArray);
     $('#numberOfAuthors').append(my.stats.authorArray.length);
     my.stats.generateArrayWithNoHTML(my.stats.articleData,my.stats.bodyArray,'body');
-    my.wordlength = my.stats.countTotalNumberOfWords(my.stats.bodyArray);
-    $('#totalNumberOfWords').append(my.wordlength);
+    my.totalNumberWords = my.stats.countTotalNumberOfWords(my.stats.bodyArray,my.stats.totalNumberOfWords);
+    $('#totalNumberOfWords').append(my.totalNumberWords);
+    my.totalLetters = my.stats.generateLettersArray(my.stats.bodyArray,my.stats.lettersArray);
 
 
   }
