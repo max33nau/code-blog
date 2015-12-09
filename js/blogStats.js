@@ -26,8 +26,12 @@ function Stats() {
 
   this.articleData = [];
   this.authorArray = [];
+  this.bodyArray = [];
+// var article = $(articleData.body).text();
+// var counter = article.slice(' ').length;
 
-  this.convertRawData = function(rawData,article,authorName) {
+
+  this.convertRawData = function(rawData,article) {
     rawData.forEach(function(object){
       article.push(new Data(object));
     });
@@ -37,15 +41,25 @@ function Stats() {
     return this.articleData.length;
   }
 
-  this.generateArrayOfAuthors = function(articleData,authorArray) {
+  this.generateArray = function(articleData,typeArray,type) {
     articleData.forEach(function(object){
-      authorArray.push(object.author)
+      typeArray.push(object[type]);
     });
   };
 
+  this.generateArrayWithNoHTML = function(articleData,typeArray,type) {
+    articleData.forEach(function(object){
+      typeArray.push($(object[type]).text());
+    });
+  };
 
-
-
+  this.countTotalNumberOfWords = function(articleBodyWithNoHTML) {
+    var totalNumberOfWords = 0;
+    articleBodyWithNoHTML.forEach(function(object){
+      totalNumberOfWords += object.split(/\s+/).length;
+    });
+    return totalNumberOfWords;
+  };
 
 
 
@@ -72,16 +86,19 @@ $(function() {
   my.ajax = new Ajax();
   my.eTag;
   my.rawData;
+  my.wordlength;
 
 
   my.jsonDataReceived = function() {
     my.rawData = JSON.parse(localStorage.getItem('blogData'));
     my.stats.convertRawData(my.rawData,my.stats.articleData);
     $('#numberOfArticles').append(my.stats.numberOfArticles());
-    my.stats.generateArrayOfAuthors(my.stats.articleData,my.stats.authorArray);
+    my.stats.generateArray(my.stats.articleData,my.stats.authorArray,'author');
     $.unique(my.stats.authorArray);
     $('#numberOfAuthors').append(my.stats.authorArray.length);
-
+    my.stats.generateArrayWithNoHTML(my.stats.articleData,my.stats.bodyArray,'body');
+    my.wordlength = my.stats.countTotalNumberOfWords(my.stats.bodyArray);
+    $('#totalNumberOfWords').append(my.wordlength);
 
 
   }
