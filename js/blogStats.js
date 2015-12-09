@@ -25,17 +25,29 @@ function Data (rawData) {
 function Stats() {
 
   this.articleData = [];
-  this.authorName = [];
+  this.authorArray = [];
 
-  this.convertRawData = function(rawData,article) {
-    rawData.forEach(function(x){
-      article.push(new Data(x));
+  this.convertRawData = function(rawData,article,authorName) {
+    rawData.forEach(function(object){
+      article.push(new Data(object));
     });
   }
 
   this.numberOfArticles = function() {
     return this.articleData.length;
   }
+
+  this.generateArrayOfAuthors = function(articleData,authorArray) {
+    articleData.forEach(function(object){
+      authorArray.push(object.author)
+    });
+  };
+
+
+
+
+
+
 
 };
 
@@ -66,7 +78,11 @@ $(function() {
     my.rawData = JSON.parse(localStorage.getItem('blogData'));
     my.stats.convertRawData(my.rawData,my.stats.articleData);
     $('#numberOfArticles').append(my.stats.numberOfArticles());
-    
+    my.stats.generateArrayOfAuthors(my.stats.articleData,my.stats.authorArray);
+    $.unique(my.stats.authorArray);
+    $('#numberOfAuthors').append(my.stats.authorArray.length);
+
+
 
   }
 
