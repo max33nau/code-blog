@@ -29,8 +29,7 @@ function Stats() {
   this.bodyArray = [];
   this.lettersArray = [];
 
-// var article = $(articleData.body).text();
-// var counter = article.slice(' ').length;
+
 
 
   this.convertRawData = function(rawData,article) {
@@ -50,6 +49,7 @@ function Stats() {
   };
 
   this.generateArrayWithNoHTML = function(articleData,typeArray,type) {
+  //  console.log(articleData[0]);
     articleData.forEach(function(object){
       typeArray.push($(object[type]).text());
     });
@@ -57,16 +57,45 @@ function Stats() {
 
   this.countTotalNumberOfWords = function(articleBodyWithNoHTML,totalWords) {
     function getNumberOfWords(words){
+
       return words.split(/\s+/).length;
+
     }
+
     var numberOfWords = articleBodyWithNoHTML.map(getNumberOfWords);
     function add(sum, a) {
       return sum + a;
     }
-    totalWords = numberOfWords.reduce(add, 0);
+
+    var totalWords = numberOfWords.reduce(add, 0);
 
     return totalWords;
   }
+
+  this.getTotalAmountOfLetters = function(articleBodyWithNoHTML) {
+    console.log(articleBodyWithNoHTML[1]);
+    function getLetterCount(bodyString) {
+      var replaceNonLetters = bodyString.replace(/[^a-zA-Z]/g,'-');
+      var splitUpStringIntoSingleCharacters = replaceNonLetters.split('');
+      function removeDash(currentValue) {
+        return currentValue !== '-'
+      }
+      var LettersOnly = splitUpStringIntoSingleCharacters.filter(removeDash);
+      return LettersOnly.length;
+    }
+
+    var totalLettersinEachBody = articleBodyWithNoHTML.map(getLetterCount);
+    function add(sum, a) {
+      return sum + a;
+    }
+
+    var totalLetters = totalLettersinEachBody.reduce(add, 0);
+
+    return totalLetters;
+
+  }
+
+
 
 
 };
@@ -106,6 +135,9 @@ $(function() {
     my.stats.generateArrayWithNoHTML(my.stats.articleData,my.stats.bodyArray,'body');
     my.totalNumberWords = my.stats.countTotalNumberOfWords(my.stats.bodyArray,my.stats.totalNumberOfWords);
     $('#totalNumberOfWords').append(my.totalNumberWords);
+    my.totalNumberOfLetters=my.stats.getTotalAmountOfLetters(my.stats.bodyArray);
+    $('#averageWordLength').append(((my.totalNumberOfLetters/my.totalNumberWords).toFixed(2)));
+
 
   }
 
@@ -134,8 +166,6 @@ $(function() {
   my.ajax.getJSONhead().fail(function(){
     console.log('you failed on getting JSON head');
   });
-
-
 
   return my;
 });
