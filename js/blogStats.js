@@ -21,6 +21,33 @@ function Data (rawData) {
   this.body = this.convertMarkDown();
 };
 
+function getNumberOfWords(words){
+
+  return words.split(/\s+/).length;
+
+}
+
+function add(sum, a) {
+  return sum + a;
+}
+
+function getLetterCount(bodyString) {
+  var replaceNonLetters = bodyString.replace(/[^a-zA-Z]/g,'-');
+  var splitUpStringIntoSingleCharacters = replaceNonLetters.split('');
+  function removeDash(currentValue) {
+    return currentValue !== '-'
+  }
+  var LettersOnly = splitUpStringIntoSingleCharacters.filter(removeDash);
+  return LettersOnly.length;
+}
+
+function filterType(type,name) {
+
+  return function(element) {
+    return element[type] == name;
+  };
+
+}
 
 function Stats() {
 
@@ -28,9 +55,6 @@ function Stats() {
   this.authorArray = [];
   this.bodyArray = [];
   this.lettersArray = [];
-
-
-
 
   this.convertRawData = function(rawData,article) {
     rawData.forEach(function(object){
@@ -49,51 +73,46 @@ function Stats() {
   };
 
   this.generateArrayWithNoHTML = function(articleData,typeArray,type) {
-  //  console.log(articleData[0]);
     articleData.forEach(function(object){
       typeArray.push($(object[type]).text());
     });
   };
 
   this.countTotalNumberOfWords = function(articleBodyWithNoHTML,totalWords) {
-    function getNumberOfWords(words){
-
-      return words.split(/\s+/).length;
-
-    }
-
     var numberOfWords = articleBodyWithNoHTML.map(getNumberOfWords);
-    function add(sum, a) {
-      return sum + a;
-    }
-
     var totalWords = numberOfWords.reduce(add, 0);
-
     return totalWords;
   }
 
   this.getTotalAmountOfLetters = function(articleBodyWithNoHTML) {
-    console.log(articleBodyWithNoHTML[1]);
-    function getLetterCount(bodyString) {
-      var replaceNonLetters = bodyString.replace(/[^a-zA-Z]/g,'-');
-      var splitUpStringIntoSingleCharacters = replaceNonLetters.split('');
-      function removeDash(currentValue) {
-        return currentValue !== '-'
-      }
-      var LettersOnly = splitUpStringIntoSingleCharacters.filter(removeDash);
-      return LettersOnly.length;
-    }
-
     var totalLettersinEachBody = articleBodyWithNoHTML.map(getLetterCount);
-    function add(sum, a) {
-      return sum + a;
-    }
-
     var totalLetters = totalLettersinEachBody.reduce(add, 0);
-
     return totalLetters;
-
   }
+
+  this.getAverageWordLengthForEachAuthor = function(authorArray,articleData) {
+    var authorAverageWordLengthData = [];
+
+    authorArray.forEach(function(authorname){
+      var authorArticles = articleData.filter(filterType('author',authorname));
+      var authorBodyArticleArray = [];
+      authorArticles.forEach(function(object){
+        authorBodyArticleArray.push(object['body']);
+      });
+      var authorNumberOfWords = authorBodyArticleArray.map(getNumberOfWords);
+      var authorLettersinEachBody = authorBodyArticleArray.map(getLetterCount);
+      var totalAuthorLetters = authorLettersinEachBody.reduce(add,0);
+      var totalAuthorWords = authorNumberOfWords.reduce(add,0);
+      var authorData = {author: authorname, averageWordLength: (totalAuthorLetters/totalAuthorWords).toFixed(2)};
+      authorAverageWordLengthData.push(authorData);
+    });
+    
+
+    authorAverageWordLengthData.forEach(function(object){
+      $('#averageWordLengthByAuthor').append('<h6>'+ object.author + ":  "+ object.averageWordLength + '</h6>');
+    })
+  }
+
 
 
 
@@ -137,6 +156,7 @@ $(function() {
     $('#totalNumberOfWords').append(my.totalNumberWords);
     my.totalNumberOfLetters=my.stats.getTotalAmountOfLetters(my.stats.bodyArray);
     $('#averageWordLength').append(((my.totalNumberOfLetters/my.totalNumberWords).toFixed(2)));
+    my.stats.getAverageWordLengthForEachAuthor(my.stats.authorArray,my.stats.articleData);
 
 
   }
