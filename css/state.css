@@ -19,3 +19,7 @@
 .site-Nav-tab:hover, .site-Nav-tab a:hover{
   color: #F2B100;
 }
+
+.type-stats-heading:hover {
+  color:red;
+}

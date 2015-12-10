@@ -97,7 +97,7 @@ function Stats() {
       var authorArticles = articleData.filter(filterType('author',authorname));
       var authorBodyArticleArray = [];
       authorArticles.forEach(function(object){
-        authorBodyArticleArray.push(object['body']);
+        authorBodyArticleArray.push($(object['body']).text());
       });
       var authorNumberOfWords = authorBodyArticleArray.map(getNumberOfWords);
       var authorLettersinEachBody = authorBodyArticleArray.map(getLetterCount);
@@ -106,12 +106,39 @@ function Stats() {
       var authorData = {author: authorname, averageWordLength: (totalAuthorLetters/totalAuthorWords).toFixed(2)};
       authorAverageWordLengthData.push(authorData);
     });
-    
+
 
     authorAverageWordLengthData.forEach(function(object){
-      $('#averageWordLengthByAuthor').append('<h6>'+ object.author + ":  "+ object.averageWordLength + '</h6>');
-    })
+      $('#averageWordLengthByAuthor').append('<h5 class="type-stats-heading">'+ object.author + ': <span class="data">'+ object.averageWordLength + '</span></h5>');
+    });
   }
+
+  this.getTotalWordsForEachArticle = function(articleData,dataforfilter) {
+    var titleArticleWords = [];
+    var titleArray = [];
+
+    dataforfilter.forEach(function(object){
+      titleArray.push(object['title']);
+    });
+
+
+    titleArray.forEach(function(titlename){
+      var titleArticles = articleData.filter(filterType('title',titlename));
+      var titleBodyArticleArray = [];
+      titleArticles.forEach(function(object){
+        titleBodyArticleArray.push($(object['body']).text());
+      });
+      var titleNumberOfWords = titleBodyArticleArray.map(getNumberOfWords);
+      var totaltitleWords = titleNumberOfWords.reduce(add,0);
+      var titleData = {title: titlename, titleTotalWords: totaltitleWords};
+      titleArticleWords.push(titleData);
+    });
+
+  titleArticleWords.forEach(function(object){
+    $('#numberOfWordsPerArticle').append('<h5 class="type-stats-heading">'+ object.title + ':<span class="data">  '+ object.titleTotalWords + ' total words</span> </h5>');
+  });
+
+}
 
 
 
@@ -157,7 +184,7 @@ $(function() {
     my.totalNumberOfLetters=my.stats.getTotalAmountOfLetters(my.stats.bodyArray);
     $('#averageWordLength').append(((my.totalNumberOfLetters/my.totalNumberWords).toFixed(2)));
     my.stats.getAverageWordLengthForEachAuthor(my.stats.authorArray,my.stats.articleData);
-
+    my.stats.getTotalWordsForEachArticle(my.stats.articleData,my.stats.articleData,'title');
 
   }
 
