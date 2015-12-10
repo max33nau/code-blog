@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title> Blog Stats </title>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> </meta>
+    <link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/module.css">
+    <link rel="stylesheet" type="text/css" href="css/state.css">
+    <link rel="stylesheet" type="text/css" href="css/changing-state.css">
+  </head>
+
+
+  <body>
+    <header class="site-Header">
+      <h1 class="site-Header-headings site-HeaderText-h1">Blog Stats</h1>
+    </header>
+
+    <fieldset>
+      <legend> Article Stats </legend>
+      <h4> Total # of articles: <span id='numberOfArticles'> </span> </h4>
+      <h4> Total # of words across all articles: <span id='totalNumberOfWords'> </span> </h4>
+      <h4> Total Word count per article: </h4>
+      <section id='numberOfWordsPerArticle'> </section>
+      <h4> Average word length across all posts: <span id='averageWordLength'> </span> </h4>
+    </fieldset>
+
+    <fieldset>
+      <legend> Author Stats </legend>
+      <h4> Total # of distinct authors: <span id='numberOfAuthors'> </span> </h4>
+      <h4> Average word length by author: </h4>
+      <section id='averageWordLengthByAuthor'> </section>
+    </fiedlset>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/marked.min.js"> </script>
+    <script type="text/javascript" src="js/blogStats.js"></script>
+  </body>
+</html>

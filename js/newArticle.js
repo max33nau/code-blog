@@ -22,10 +22,6 @@ $(function() {
     var bodyValue = $articleBody.val();
 
     /**** Marked Values ****/
-    var markTitle = marked(titleValue);
-    var markCategory = marked(categoryValue);
-    var markAuthor = marked(authorValue);
-    var markAuthorUrl = marked(authorUrlValue);
     var markBody = marked(bodyValue);
 
     /**** Create New Article Object ****/
@@ -42,8 +38,8 @@ $(function() {
 
     /**** Live preview of what article will look on blog ****/
     $.get('templates/articleTemplate.html', function(articleTemplate) {
-      handleBarTemplate = Handlebars.compile(articleTemplate);
-      articleToHtml = handleBarTemplate(newArticle);
+      var handleBarTemplate = Handlebars.compile(articleTemplate);
+      var articleToHtml = handleBarTemplate(newArticle);
       $livePreview.html(articleToHtml);
       $livePreview.find('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
