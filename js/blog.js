@@ -109,18 +109,19 @@ function Ajax() {
   };
 
   this.getJSONdata = function() {
-    return $.getJSON('blogArticles.json', function(data) {
-      localStorage.setItem('blogData', JSON.stringify(data));
-    });
+    return $.getJSON('blogArticles.json', my.generateJSONarticles);
   };
 
 
 }
+
+var my = {};
+
 $(function() {
 
   /**** Initialize Objects ****/
 
-  var my = {};
+
   my.$anchor = $('#blog_articles');
   my.util = new Util();
   my.blog = new Blog();
@@ -129,26 +130,29 @@ $(function() {
   my.articleData;
 
 
-  my.generateJSONarticles=function() {
-    my.articleData = JSON.parse(localStorage.getItem('blogData'));
-      /**** Sort and Filter Raw Data ****/
-    my.blog.generateObjectArray(my.articleData);
+  my.generateJSONarticles=function(data) {
+  //  console.log('data',data)
+    my.blog.generateObjectArray(data);
+
     my.blog.sortArrays();
     my.blog.author = my.blog.filterProperty(my.blog.author);
     my.blog.category = my.blog.filterProperty(my.blog.category);
     my.blog.addSubjectstoNav();
+
+    //console.log('myobject',my.blog.article)
+    webDatabase.insertAllArticles(data);
       /**** Add Articles to DOM using Handlebars ****/
-    $.get('templates/articleTemplate.html', function(articleTemplate) {
-      my.handleBarTemplate = Handlebars.compile(articleTemplate);
-      for( var ii = 0; ii < my.blog.article.length; ii++) {
-        my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
-        my.$anchor.append(my.articleToHtml);
-      }
+    // $.get('templates/articleTemplate.html', function(articleTemplate) {
+    //   my.handleBarTemplate = Handlebars.compile(articleTemplate);
+    //   for( var ii = 0; ii < my.blog.article.length; ii++) {
+    //     my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
+    //     my.$anchor.append(my.articleToHtml);
+    //   }
       /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
       my.blog.manipulateArticleBodyParagraphs();
       my.blog.expand();
       my.blog.hide();
-    });
+    // });
 
     /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
     my.util.navigation();
@@ -157,7 +161,8 @@ $(function() {
 
   };
 
-
+  webDatabase.init();
+  webDatabase.setupTables();
   my.ajax.getJSONhead().done(function(data,server,xhr){
     my.eTag = xhr.getResponseHeader('eTag');
 
@@ -165,7 +170,7 @@ $(function() {
       localStorage.setItem('uniqueEtag', my.eTag);
       my.ajax.getJSONdata().done(function() {
         console.log('Data Loaded');
-        my.generateJSONarticles();
+    //    my.generateJSONarticles();
       });
       my.ajax.getJSONdata().fail(function(){
         console.log('you failed on getting JSON data');
