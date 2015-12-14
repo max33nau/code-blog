@@ -57,6 +57,8 @@ function Util() {
     var $authorClicked = $('.search-author-name');
     $authorClicked.click(function() {
       var $textValue = $(this).text();
+      // console.log('clicke author', $textValue );
+      // webDatabase.execute('SELECT * FROM Blog_Articles WHERE author='+ $textValue +';', my.util.displayAuthorName);
       $('.author').find('.authorSpan').each(function() {
         var $author = $(this);
         if($author.text() !== $textValue) {
@@ -67,7 +69,6 @@ function Util() {
       });
     });
   };
-
 
   this.filterByCategory = function() {
     var $categoryClicked = $('.search-category-subject');

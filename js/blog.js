@@ -1,3 +1,4 @@
+/*** CONVERTS JSON DATA TO ARTICLE OBJECT ***/
 function Data (rawData) {
   this.title = rawData.title;
   this.category = rawData.category;
@@ -20,53 +21,72 @@ function Data (rawData) {
   this.body = this.convertMarkDown();
 };
 
+/*** CONSTRUCTOR OBJECT USED FOR BLOG DEVELOPMENT ***/
 function Blog() {
   this.article = [];
-  this.author = [];
-  this.category = [];
 
+  this.updateDatabase = function(dataForDatabase) {
+    webDatabase.execute('DELETE FROM Blog_Articles',function() {
+      console.log('wiped database clean');
+    })
+    webDatabase.insertAllArticles(dataForDatabase);
+  }
+
+  this.selectArticlesFromDatabase = function() {
+
+    webDatabase.execute('SELECT * FROM Blog_Articles ORDER BY DaysPublishedAgo ASC', my.blog.showArticlesOnBlog);
+  };
+
+  this.showArticlesOnBlog = function(myArticles) {
+
+    var articles = myArticles;
+    //console.log("Async: Near top of showArticles(): articles="+articles);
+    $.each(articles, function(i,eachArticle) {
+      my.articleToHtml = my.handleBarTemplate(eachArticle);
+      my.$anchor.append(my.articleToHtml);
+    });
+    /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
+    my.blog.manipulateArticleBodyParagraphs();
+    my.blog.expand();
+    my.blog.hide();
+    $('pre code').each(function(i,block){
+      hljs.highlightBlock(block);
+    });
+  }
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
       this.article.push(new Data(rawData[ii]));
-      this.author.push(this.article[ii].author);
-      this.category.push(this.article[ii].category);
     }
+
   };
 
-  this.sortArrays = function () {
-    this.article.sort(function(a,b){ return (a.DaysPublishedAgo - b.DaysPublishedAgo ); });
-    this.author.sort();
-    this.category.sort();
+  this.addAuthorNamestoNav = function() {
+    webDatabase.execute('SELECT DISTINCT author FROM Blog_Articles ORDER BY author ASC;', my.blog.authorSubject);
   };
 
-  this.filterProperty = function(PropertyToBeFiltered) {
-    var filteredArray = [];
-    var repeat = 0;
-    for(var ii = 0; ii < PropertyToBeFiltered.length; ii++) {
-      if( PropertyToBeFiltered[ii] == PropertyToBeFiltered[ii+1] ) {
-        repeat++;
-      } else {
-        filteredArray.push(PropertyToBeFiltered[ii]);
-      }
-    }
-    return filteredArray;
-  };
+  this.addCategorySubjectstoNav = function() {
+    webDatabase.execute('SELECT DISTINCT category FROM Blog_Articles ORDER BY category ASC;', my.blog.categorySubject);
+  }
 
-  this.addSubjectstoNav = function() {
+  this.authorSubject = function(author) {
     var $authorFilter = $('#authorFilter');
+    $.each(author, function(i,object) {
+    $authorFilter.append('<li class="search-author-name">' + object.author + '</li>');
+    });
+    my.util.filterByAuthor();
+  }
+
+  this.categorySubject = function(category) {
     var $categoryFilter = $('#categoryFilter');
-    for (var ii = 0; ii, ii < this.author.length; ii++) {
-      $authorFilter.append('<li class="search-author-name">' + this.author[ii] + '</li>');
-    }
-    for (var ii = 0; ii, ii < this.category.length; ii++) {
-      $categoryFilter.append('<li class="search-category-subject">' + this.category[ii] + '</li>');
-    }
-  };
+    $.each(category, function(i,object) {
+      $categoryFilter.append('<li class="search-category-subject">' + object.category + '</li>');
+    });
+    my.util.filterByCategory();
+  }
 
   this.manipulateArticleBodyParagraphs = function() {
     var $generateBody = $('.article-body').each(function(){
       var $self = $(this);
-
       $self.children().hide();
       $self.find('p:first').append('<span class="expand"> Read More --> </span>');
       $self.find(':last-child').append('<span class="hide"> Hide <-- </span>');
@@ -97,7 +117,6 @@ function Blog() {
       $self.parent().siblings().find('.expand').show();
     });
   };
-
 }
 
 function Ajax() {
@@ -108,19 +127,20 @@ function Ajax() {
     });
   };
 
-  this.getJSONdata = function() {
-    return $.getJSON('blogArticles.json', function(data) {
-      localStorage.setItem('blogData', JSON.stringify(data));
-    });
+  this.getUpdatedJSONdata = function() {
+    return $.getJSON('blogArticles.json', my.changedJSONdata);
   };
 
-
+  this.getJSONdata = function() {
+    return $.getJSON('blogArticles.json', my.processJSONarticles);
+  };
 }
+
+var my = {};
+
 $(function() {
 
   /**** Initialize Objects ****/
-
-  var my = {};
   my.$anchor = $('#blog_articles');
   my.util = new Util();
   my.blog = new Blog();
@@ -128,52 +148,46 @@ $(function() {
   my.eTag;
   my.articleData;
 
+  my.changedJSONdata = function(data) {
+    my.blog.generateObjectArray(data);
+    my.blog.updateDatabase(my.blog.article);
+    my.processJSONarticles();
+  }
 
-  my.generateJSONarticles=function() {
-    my.articleData = JSON.parse(localStorage.getItem('blogData'));
-      /**** Sort and Filter Raw Data ****/
-    my.blog.generateObjectArray(my.articleData);
-    my.blog.sortArrays();
-    my.blog.author = my.blog.filterProperty(my.blog.author);
-    my.blog.category = my.blog.filterProperty(my.blog.category);
-    my.blog.addSubjectstoNav();
-      /**** Add Articles to DOM using Handlebars ****/
-    $.get('templates/articleTemplate.html', function(articleTemplate) {
-      my.handleBarTemplate = Handlebars.compile(articleTemplate);
-      for( var ii = 0; ii < my.blog.article.length; ii++) {
-        my.articleToHtml = my.handleBarTemplate(my.blog.article[ii]);
-        my.$anchor.append(my.articleToHtml);
-      }
-      /**** Truncate Paragraphs and Add 'Read More' and 'Hide' to Paragraphs ****/
-      my.blog.manipulateArticleBodyParagraphs();
-      my.blog.expand();
-      my.blog.hide();
-    });
-
+  my.processJSONarticles = function() {
+    my.blog.selectArticlesFromDatabase();
+    my.blog.addAuthorNamestoNav();
+    my.blog.addCategorySubjectstoNav();
     /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
     my.util.navigation();
-    my.util.filterByAuthor();
-    my.util.filterByCategory();
-
   };
 
+/*** First Callback function on page, connects to database and then sets up tables ***/
+  webDatabase.init();
+  webDatabase.setupTables();
 
+/*** Compiles Template that will be used for each article ***/
+  $.get('templates/articleTemplate.html', function(articleTemplate) {
+   my.handleBarTemplate = Handlebars.compile(articleTemplate);
+ });
+
+/*** Check the JSON object head to see if JSON object has been updated.  ***
+ *** Once done begin to check if etag is the same as previous etag or if ***
+ *** it even existed.                                                    ***/
   my.ajax.getJSONhead().done(function(data,server,xhr){
     my.eTag = xhr.getResponseHeader('eTag');
 
     if(my.eTag !== localStorage.getItem('uniqueEtag')) {
       localStorage.setItem('uniqueEtag', my.eTag);
-      my.ajax.getJSONdata().done(function() {
+  /*** Happens when first etag doesn't exist or is new ***/
+      my.ajax.getUpdatedJSONdata().done(function() {
         console.log('Data Loaded');
-        my.generateJSONarticles();
       });
       my.ajax.getJSONdata().fail(function(){
         console.log('you failed on getting JSON data');
       });
     } else {
-      my.articleData = JSON.parse(localStorage.getItem('blogData'));
-      my.generateJSONarticles();
-
+      my.ajax.getJSONdata();
     }
   });
   my.ajax.getJSONhead().fail(function(){
