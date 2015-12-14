@@ -162,8 +162,6 @@ $(function() {
     my.util.navigation();
   };
 
-
-
 /*** First Callback function on page, connects to database and then sets up tables ***/
   webDatabase.init();
   webDatabase.setupTables();

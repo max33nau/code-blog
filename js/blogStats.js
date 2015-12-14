@@ -82,7 +82,6 @@ function Stats() {
     my.stats.getTotalWordsForEachArticle(articleData,articleData,'title');
   };
 
-
   this.convertRawData = function(rawData,article) {
     rawData.forEach(function(object){
       article.push(new Data(object));
@@ -134,7 +133,6 @@ function Stats() {
       authorAverageWordLengthData.push(authorData);
     });
 
-
     authorAverageWordLengthData.forEach(function(object){
       $('#averageWordLengthByAuthor').append('<h5 class="type-stats-heading">'+ object.author + ': <span class="data">'+ object.averageWordLength + '</span></h5>');
     });
@@ -147,7 +145,6 @@ function Stats() {
     dataforfilter.forEach(function(object){
       titleArray.push(object['title']);
     });
-
 
     titleArray.forEach(function(titlename){
       var titleArticles = articleData.filter(filterType('title',titlename));
@@ -206,22 +203,7 @@ $(function() {
   };
 
   my.jsonDataReceived = function() {
-    console.log('here ');
-  //  my.rawData = JSON.parse(localStorage.getItem('blogData'));
-  //  my.stats.convertRawData(my.rawData,my.stats.articleData);
     my.stats.selectArticlesFromDatabase();
-    // $('#numberOfArticles').append(my.stats.numberOfArticles());
-    // my.stats.generateArray(my.stats.articleData,my.stats.authorArray,'author');
-    // $.unique(my.stats.authorArray);
-    // $('#numberOfAuthors').append(my.stats.authorArray.length);
-    // my.stats.generateArrayWithNoHTML(my.stats.articleData,my.stats.bodyArray,'body');
-    // my.totalNumberWords = my.stats.countTotalNumberOfWords(my.stats.bodyArray,my.stats.totalNumberOfWords);
-    // $('#totalNumberOfWords').append(my.totalNumberWords);
-    // my.totalNumberOfLetters=my.stats.getTotalAmountOfLetters(my.stats.bodyArray);
-    // $('#averageWordLength').append(((my.totalNumberOfLetters/my.totalNumberWords).toFixed(2)));
-    // my.stats.getAverageWordLengthForEachAuthor(my.stats.authorArray,my.stats.articleData);
-    // my.stats.getTotalWordsForEachArticle(my.stats.articleData,my.stats.articleData,'title');
-
   };
 
   /**** RUN GET JSON HEAD FUNCTION THEN ON DONE RUN ****/
