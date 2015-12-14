@@ -146,8 +146,7 @@ $(function() {
 
   my.processJSONarticles = function(data) {
 
-    my.blog.generateObjectArray(data);
-    my.blog.updateDatabase(my.blog.article);
+
     my.blog.selectArticlesFromDatabase();
     my.blog.addAuthorNamestoNav();
     my.blog.addCategorySubjectstoNav();
@@ -175,7 +174,8 @@ $(function() {
 
     if(my.eTag !== localStorage.getItem('uniqueEtag')) {
       localStorage.setItem('uniqueEtag', my.eTag);
-
+      my.blog.generateObjectArray(data);
+      my.blog.updateDatabase(my.blog.article);
   /*** Go to function call back my.ajax.getJSONdata() ***/
       my.ajax.getJSONdata().done(function() {
         console.log('Data Loaded');
