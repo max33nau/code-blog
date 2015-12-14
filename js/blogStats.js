@@ -35,7 +35,7 @@ function getLetterCount(bodyString) {
   var replaceNonLetters = bodyString.replace(/[^a-zA-Z]/g,'-');
   var splitUpStringIntoSingleCharacters = replaceNonLetters.split('');
   function removeDash(currentValue) {
-    return currentValue !== '-'
+    return currentValue !== '-';
   }
   var LettersOnly = splitUpStringIntoSingleCharacters.filter(removeDash);
   return LettersOnly.length;
@@ -52,19 +52,46 @@ function filterType(type,name) {
 function Stats() {
 
   this.articleData = [];
+  this.updatedArticleData= [];
   this.authorArray = [];
   this.bodyArray = [];
   this.lettersArray = [];
+
+  this.updateDatabase = function(dataForDatabase) {
+    webDatabase.execute('DELETE FROM Blog_Articles',function() {
+      console.log('wiped database clean');
+    });
+    webDatabase.insertAllArticles(dataForDatabase);
+  };
+
+  this.selectArticlesFromDatabase = function() {
+    webDatabase.execute('SELECT * FROM Blog_Articles;', my.stats.beginDoingStats);
+  };
+
+  this.beginDoingStats = function(articleData) {
+    $('#numberOfArticles').append(my.stats.numberOfArticles(articleData));
+    my.stats.generateArray(articleData,my.stats.authorArray,'author');
+    $.unique(my.stats.authorArray);
+    $('#numberOfAuthors').append(my.stats.authorArray.length);
+    my.stats.generateArrayWithNoHTML(articleData,my.stats.bodyArray,'body');
+    my.totalNumberWords = my.stats.countTotalNumberOfWords(my.stats.bodyArray,my.stats.totalNumberOfWords);
+    $('#totalNumberOfWords').append(my.totalNumberWords);
+    my.totalNumberOfLetters=my.stats.getTotalAmountOfLetters(my.stats.bodyArray);
+    $('#averageWordLength').append(((my.totalNumberOfLetters/my.totalNumberWords).toFixed(2)));
+    my.stats.getAverageWordLengthForEachAuthor(my.stats.authorArray,articleData);
+    my.stats.getTotalWordsForEachArticle(articleData,articleData,'title');
+  };
+
 
   this.convertRawData = function(rawData,article) {
     rawData.forEach(function(object){
       article.push(new Data(object));
     });
-  }
+  };
 
-  this.numberOfArticles = function() {
-    return this.articleData.length;
-  }
+  this.numberOfArticles = function(articleObject) {
+    return articleObject.length;
+  };
 
   this.generateArray = function(articleData,typeArray,type) {
     articleData.forEach(function(object){
@@ -82,13 +109,13 @@ function Stats() {
     var numberOfWords = articleBodyWithNoHTML.map(getNumberOfWords);
     var totalWords = numberOfWords.reduce(add, 0);
     return totalWords;
-  }
+  };
 
   this.getTotalAmountOfLetters = function(articleBodyWithNoHTML) {
     var totalLettersinEachBody = articleBodyWithNoHTML.map(getLetterCount);
     var totalLetters = totalLettersinEachBody.reduce(add, 0);
     return totalLetters;
-  }
+  };
 
   this.getAverageWordLengthForEachAuthor = function(authorArray,articleData) {
     var authorAverageWordLengthData = [];
@@ -111,7 +138,7 @@ function Stats() {
     authorAverageWordLengthData.forEach(function(object){
       $('#averageWordLengthByAuthor').append('<h5 class="type-stats-heading">'+ object.author + ': <span class="data">'+ object.averageWordLength + '</span></h5>');
     });
-  }
+  };
 
   this.getTotalWordsForEachArticle = function(articleData,dataforfilter) {
     var titleArticleWords = [];
@@ -134,15 +161,11 @@ function Stats() {
       titleArticleWords.push(titleData);
     });
 
-  titleArticleWords.forEach(function(object){
-    $('#numberOfWordsPerArticle').append('<h5 class="type-stats-heading">'+ object.title + ':<span class="data">  '+ object.titleTotalWords + ' total words</span> </h5>');
-  });
+    titleArticleWords.forEach(function(object){
+      $('#numberOfWordsPerArticle').append('<h5 class="type-stats-heading">'+ object.title + ':<span class="data">  '+ object.titleTotalWords + ' total words</span> </h5>');
+    });
 
-}
-
-
-
-
+  };
 
 };
 
@@ -154,61 +177,66 @@ function Ajax() {
     });
   };
 
+  this.getUpdatedJSONdata = function() {
+    return $.getJSON('blogArticles.json', my.changedJSONdata);
+  };
+
   this.getJSONdata = function() {
-    return $.getJSON('blogArticles.json', function(data) {
-      localStorage.setItem('blogData', JSON.stringify(data));
-    });
+    return $.getJSON('blogArticles.json', my.jsonDataReceived);
   };
 }
 
+my = {};
+
 $(function() {
 
-  my = {};
   my.stats = new Stats();
   my.ajax = new Ajax();
   my.eTag;
   my.rawData;
 
+  /*** First Callback function on page, connects to database and then sets up tables ***/
+  webDatabase.init();
+  webDatabase.setupTables();
 
+  my.changedJSONdata = function(data) {
+    my.stats.convertRawData(data,my.stats.articleData);
+    my.stats.updateDatabase(my.stats.articleData);
+    my.jsonDataReceived();
+  };
 
   my.jsonDataReceived = function() {
-    my.rawData = JSON.parse(localStorage.getItem('blogData'));
-    my.stats.convertRawData(my.rawData,my.stats.articleData);
-    $('#numberOfArticles').append(my.stats.numberOfArticles());
-    my.stats.generateArray(my.stats.articleData,my.stats.authorArray,'author');
-    $.unique(my.stats.authorArray);
-    $('#numberOfAuthors').append(my.stats.authorArray.length);
-    my.stats.generateArrayWithNoHTML(my.stats.articleData,my.stats.bodyArray,'body');
-    my.totalNumberWords = my.stats.countTotalNumberOfWords(my.stats.bodyArray,my.stats.totalNumberOfWords);
-    $('#totalNumberOfWords').append(my.totalNumberWords);
-    my.totalNumberOfLetters=my.stats.getTotalAmountOfLetters(my.stats.bodyArray);
-    $('#averageWordLength').append(((my.totalNumberOfLetters/my.totalNumberWords).toFixed(2)));
-    my.stats.getAverageWordLengthForEachAuthor(my.stats.authorArray,my.stats.articleData);
-    my.stats.getTotalWordsForEachArticle(my.stats.articleData,my.stats.articleData,'title');
+    console.log('here ');
+  //  my.rawData = JSON.parse(localStorage.getItem('blogData'));
+  //  my.stats.convertRawData(my.rawData,my.stats.articleData);
+    my.stats.selectArticlesFromDatabase();
+    // $('#numberOfArticles').append(my.stats.numberOfArticles());
+    // my.stats.generateArray(my.stats.articleData,my.stats.authorArray,'author');
+    // $.unique(my.stats.authorArray);
+    // $('#numberOfAuthors').append(my.stats.authorArray.length);
+    // my.stats.generateArrayWithNoHTML(my.stats.articleData,my.stats.bodyArray,'body');
+    // my.totalNumberWords = my.stats.countTotalNumberOfWords(my.stats.bodyArray,my.stats.totalNumberOfWords);
+    // $('#totalNumberOfWords').append(my.totalNumberWords);
+    // my.totalNumberOfLetters=my.stats.getTotalAmountOfLetters(my.stats.bodyArray);
+    // $('#averageWordLength').append(((my.totalNumberOfLetters/my.totalNumberWords).toFixed(2)));
+    // my.stats.getAverageWordLengthForEachAuthor(my.stats.authorArray,my.stats.articleData);
+    // my.stats.getTotalWordsForEachArticle(my.stats.articleData,my.stats.articleData,'title');
 
-  }
-
+  };
 
   /**** RUN GET JSON HEAD FUNCTION THEN ON DONE RUN ****/
   my.ajax.getJSONhead().done(function(data,server,xhr){
     my.eTag = xhr.getResponseHeader('eTag');
     if(my.eTag !== localStorage.getItem('uniqueEtag')) {
       localStorage.setItem('uniqueEtag', my.eTag);
-      my.ajax.getJSONdata().done(function() {
+      my.ajax.getUpdatedJSONdata().done(function() {
         console.log('Data Loaded');
-        my.jsonDataReceived();
-
-      });
-      my.ajax.getJSONdata().fail(function(){
-        console.log('you failed on getting JSON data');
       });
     } else {
       console.log('eTags are the Same');
-      my.jsonDataReceived();
-
+      my.ajax.getJSONdata();
     }
   });
-
   /**** RUN GET JSON HEAD FUNCTION THEN ON FAIL RUN ****/
   my.ajax.getJSONhead().fail(function(){
     console.log('you failed on getting JSON head');

@@ -151,7 +151,7 @@ $(function() {
   my.changedJSONdata = function(data) {
     my.blog.generateObjectArray(data);
     my.blog.updateDatabase(my.blog.article);
-    my.processJSONarticles
+    my.processJSONarticles();
   }
 
   my.processJSONarticles = function() {
