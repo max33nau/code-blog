@@ -55,16 +55,31 @@ function Util() {
 
   this.filterByAuthor = function() {
     var $authorClicked = $('.search-author-name');
+    console.log('here it worked')
     $authorClicked.click(function() {
+
       var $textValue = $(this).text();
-      $('.author').find('.authorSpan').each(function() {
-        var $author = $(this);
-        if($author.text() !== $textValue) {
-          $author.closest('.article').hide();
-        } else {
-          $author.closest('.article').show();
-        }
-      });
+      console.log('clicke author', $textValue );
+      webDatabase.execute('SELECT DISTINCT author FROM Blog_Articles WHERE author ='+ $textValue +';', my.util.displayAuthorName);
+      // $('.author').find('.authorSpan').each(function() {
+      //   var $author = $(this);
+      //   if($author.text() !== $textValue) {
+      //     $author.closest('.article').hide();
+      //   } else {
+      //     $author.closest('.article').show();
+      //   }
+      // });
+    });
+  };
+
+  this.displayAuthorName = function(specifiedAuthor) {
+    $('.author').find('.authorSpan').each(function() {
+      var $author = specifiedAuthor.author;
+      if($author.text() !== $textValue) {
+        $author.closest('.article').hide();
+      } else {
+        $author.closest('.article').show();
+      }
     });
   };
 

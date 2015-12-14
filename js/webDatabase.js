@@ -43,13 +43,10 @@ webDatabase.getJSONobjectOfArticles = function(path) {
   $.getJSON(path, webDatabase.insertAllArticles);
 };
 
-webDatabase.insertAllArticles = function(articles) {
-  var updatedArticle = [ ];
-  articles.forEach(function(object){
-    updatedArticle.push(new Data(object));
-  });
-  
+webDatabase.insertAllArticles = function(updatedArticle) {
+
   updatedArticle.forEach(webDatabase.insertArticle);
+
 };
 
 webDatabase.insertArticle = function(articleData) {
@@ -62,12 +59,7 @@ webDatabase.insertArticle = function(articleData) {
       },
     ],
     function() {
-      $.get('templates/articleTemplate.html', function(articleTemplate) {
-        my.handleBarTemplate = Handlebars.compile(articleTemplate);
-        my.articleToHtml = my.handleBarTemplate(articleData);
-        my.$anchor.append(articleData);
-      });
-      console.log('Success inserting record for ', articleData.title);
+      //console.log('Success inserting record for ', articleData.title);
     }
   );
 };
