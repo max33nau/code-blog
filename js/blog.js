@@ -73,19 +73,20 @@ function Blog() {
     $.each(author, function(i,object) {
     $authorFilter.append('<li class="search-author-name">' + object.author + '</li>');
     });
+    my.util.filterByAuthor();
   }
 
   this.categorySubject = function(category) {
-      var $categoryFilter = $('#categoryFilter');
+    var $categoryFilter = $('#categoryFilter');
     $.each(category, function(i,object) {
       $categoryFilter.append('<li class="search-category-subject">' + object.category + '</li>');
     });
+    my.util.filterByCategory();
   }
 
   this.manipulateArticleBodyParagraphs = function() {
     var $generateBody = $('.article-body').each(function(){
       var $self = $(this);
-
       $self.children().hide();
       $self.find('p:first').append('<span class="expand"> Read More --> </span>');
       $self.find(':last-child').append('<span class="hide"> Hide <-- </span>');
@@ -145,16 +146,11 @@ $(function() {
 
 
   my.processJSONarticles = function(data) {
-
-
     my.blog.selectArticlesFromDatabase();
     my.blog.addAuthorNamestoNav();
     my.blog.addCategorySubjectstoNav();
     /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
     my.util.navigation();
-    my.util.filterByAuthor();
-    my.util.filterByCategory();
-
   };
 
 /*** First Callback function on page, connects to database and then sets up tables ***/
