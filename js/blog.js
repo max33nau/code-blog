@@ -127,6 +127,10 @@ function Ajax() {
     });
   };
 
+  this.getUpdatedJSONdata = function() {
+    return $.getJSON('blogArticles.json', my.changedJSONdata);
+  };
+
   this.getJSONdata = function() {
     return $.getJSON('blogArticles.json', my.processJSONarticles);
   };
@@ -144,14 +148,21 @@ $(function() {
   my.eTag;
   my.articleData;
 
+  my.changedJSONdata = function(data) {
+    my.blog.generateObjectArray(data);
+    my.blog.updateDatabase(my.blog.article);
+    my.processJSONarticles
+  }
 
-  my.processJSONarticles = function(data) {
+  my.processJSONarticles = function() {
     my.blog.selectArticlesFromDatabase();
     my.blog.addAuthorNamestoNav();
     my.blog.addCategorySubjectstoNav();
     /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
     my.util.navigation();
   };
+
+
 
 /*** First Callback function on page, connects to database and then sets up tables ***/
   webDatabase.init();
@@ -170,10 +181,8 @@ $(function() {
 
     if(my.eTag !== localStorage.getItem('uniqueEtag')) {
       localStorage.setItem('uniqueEtag', my.eTag);
-      my.blog.generateObjectArray(data);
-      my.blog.updateDatabase(my.blog.article);
-  /*** Go to function call back my.ajax.getJSONdata() ***/
-      my.ajax.getJSONdata().done(function() {
+  /*** Happens when first etag doesn't exist or is new ***/
+      my.ajax.getUpdatedJSONdata().done(function() {
         console.log('Data Loaded');
       });
       my.ajax.getJSONdata().fail(function(){
