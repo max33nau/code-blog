@@ -1,5 +1,11 @@
 var controller = {};
 
+controller.loadData = function() {
+
+  console.log('load Data', my.dataIsLoaded);
+  my.initialize();
+};
+
 controller.showAboutMe= function() {
   $('#AboutMe').show();
   $('#blog_articles').hide();
@@ -7,10 +13,12 @@ controller.showAboutMe= function() {
 };
 
 controller.showAllArticles = function()  {
+  controller.loadData();
   $('#AboutMe').hide();
   $('#blog_articles').show();
   $('.article').show();
   $('#site-Nav-filterArticles').show();
+
 };
 
 controller.showSearchBar = function() {
@@ -54,14 +62,15 @@ controller.showSpecificArticleTitle = function(specificArticleTitle) {
 
 controller.searchingForAuthor = function(ctx) {
   my.lookingforAuthorName = ctx.params.author;
-
+  controller.loadData();
 };
 
 controller.searchingForCategory = function(ctx){
   my.lookingforCategorySubject = ctx.params.category;
-
+  controller.loadData();
 };
 
 controller.searchingForTitle = function(ctx){
   my.lookingForArticleTitle = ctx.params.title;
+  controller.loadData();
 };

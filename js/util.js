@@ -33,17 +33,13 @@ function Util() {
     }
   );
 
-    // $('#navAboutMe').click(function() {
-    //   $('#AboutMe').show();
-    //   $('.article').hide();
-    //   $('#site-Nav-filterArticles').hide();
-    // });
-
-    // $('#navArticles').click(function() {
-    //   $('#AboutMe').hide();
-    //   $('.article').show();
-    //   $('#site-Nav-filterArticles').show();
-    // });
+    $('#navArticles').click(function() {
+      history.pushState({},'article','articles');
+      $('#AboutMe').hide();
+      $('#blog_articles').show();
+      $('.article').show();
+      $('#site-Nav-filterArticles').show();
+    });
 
     $('#blog_articles').click(function(e) {
       e.stopPropagation();
@@ -57,8 +53,15 @@ function Util() {
     var $authorClicked = $('.search-author-name');
     $authorClicked.click(function() {
       var $textValue = $(this).text();
-      window.location = 'articles/search/author/'+$textValue;
-
+      history.pushState({},'author','articles/search/author/'+$textValue);
+      $('.author').find('.authorSpan').each(function() {
+        var $author = $(this);
+        if($author.text() !== $textValue) {
+          $author.closest('.article').hide();
+        } else {
+          $author.closest('.article').show();
+        }
+      });
     });
   };
 
@@ -66,7 +69,15 @@ function Util() {
     var $titleClicked = $('.articleTitle');
     $titleClicked.click(function() {
       var $textValue = $(this).text();
-      window.location = 'articles/search/article/'+$textValue;
+      history.pushState({},'title','articles/search/article/'+$textValue);
+      $('.articleTitle').each(function() {
+        var $title = $(this);
+        if($title.text() !== $textValue) {
+          $title.closest('.article').hide();
+        } else {
+          $title.closest('.article').show();
+        }
+      });
     });
   };
 
@@ -74,7 +85,15 @@ function Util() {
     var $categoryClicked = $('.search-category-subject');
     $categoryClicked.click(function() {
       var $textValue = $(this).text();
-      window.location = 'articles/search/category/'+$textValue;
+      history.pushState({},'category','articles/search/category/'+$textValue);
+      $('.category').each(function() {
+        var $category = $(this);
+        if($category.text() !== $textValue) {
+          $category.closest('.article').hide();
+        } else {
+          $category.closest('.article').show();
+        }
+      });
     });
   };
 }

@@ -90,6 +90,9 @@ function Blog() {
     if(my.lookingforCategorySubject) {
       controller.showSpecificCategoryArticles(my.lookingforCategorySubject);
     }
+    my.dataIsLoaded = true;
+    console.log('load Data init', my.dataIsLoaded);
+
   };
 
   this.manipulateArticleBodyParagraphs = function() {
@@ -148,16 +151,6 @@ function Ajax() {
 var my = {};
 
 $(function() {
-
-  /**** Initialize Objects ****/
-  my.$anchor = $('#blog_articles');
-  my.util = new Util();
-  my.blog = new Blog();
-  my.ajax = new Ajax();
-  my.eTag;
-  my.articleData;
-
-
   my.changedJSONdata = function(data) {
     my.blog.generateObjectArray(data);
     my.blog.updateDatabase(my.blog.article);
@@ -173,6 +166,16 @@ $(function() {
     /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
     my.util.navigation();
   };
+
+my.initialize = function() {
+
+  /**** Initialize Objects ****/
+  my.$anchor = $('#blog_articles');
+  my.util = new Util();
+  my.blog = new Blog();
+  my.ajax = new Ajax();
+  my.eTag;
+  my.articleData;
 
   // $.ajax({
   //   url: 'https://api.hithub.com',
@@ -214,6 +217,8 @@ $(function() {
   my.ajax.getJSONhead().fail(function(){
     console.log('you failed on getting JSON head');
   });
+
+};
 
   return my;
 
