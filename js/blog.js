@@ -74,6 +74,9 @@ function Blog() {
       $authorFilter.append('<li class="search-author-name">' + object.author + '</li>');
     });
     my.util.filterByAuthor();
+    if(my.lookingforAuthorName) {
+      controller.showSpecificAuthorArticles(my.lookingforAuthorName);
+    }
   };
 
   this.categorySubject = function(category) {
@@ -82,6 +85,9 @@ function Blog() {
       $categoryFilter.append('<li class="search-category-subject">' + object.category + '</li>');
     });
     my.util.filterByCategory();
+    if(my.lookingforCategorySubject) {
+      controller.showSpecificCategoryArticles(my.lookingforCategorySubject);
+    }
   };
 
   this.manipulateArticleBodyParagraphs = function() {
@@ -134,7 +140,7 @@ function Ajax() {
   this.getJSONdata = function() {
     return $.getJSON('blogArticles.json', my.processJSONarticles);
   };
-  
+
 }
 
 var my = {};
@@ -149,6 +155,7 @@ $(function() {
   my.eTag;
   my.articleData;
 
+
   my.changedJSONdata = function(data) {
     my.blog.generateObjectArray(data);
     my.blog.updateDatabase(my.blog.article);
@@ -156,6 +163,7 @@ $(function() {
   };
 
   my.processJSONarticles = function() {
+    console.log(my.lookingforAuthorName);
     my.blog.selectArticlesFromDatabase();
     my.blog.addAuthorNamestoNav();
     my.blog.addCategorySubjectstoNav();
