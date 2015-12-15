@@ -28,17 +28,15 @@ function Blog() {
   this.updateDatabase = function(dataForDatabase) {
     webDatabase.execute('DELETE FROM Blog_Articles',function() {
       console.log('wiped database clean');
-    })
+    });
     webDatabase.insertAllArticles(dataForDatabase);
-  }
+  };
 
   this.selectArticlesFromDatabase = function() {
-
     webDatabase.execute('SELECT * FROM Blog_Articles ORDER BY DaysPublishedAgo ASC', my.blog.showArticlesOnBlog);
   };
 
   this.showArticlesOnBlog = function(myArticles) {
-
     var articles = myArticles;
     //console.log("Async: Near top of showArticles(): articles="+articles);
     $.each(articles, function(i,eachArticle) {
@@ -52,12 +50,16 @@ function Blog() {
     $('pre code').each(function(i,block){
       hljs.highlightBlock(block);
     });
-  }
+    my.util.filterByTitle();
+    if(my.lookingForArticleTitle) {
+      controller.showSpecificArticleTitle(my.lookingForArticleTitle);
+    }
+  };
+
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
       this.article.push(new Data(rawData[ii]));
     }
-
   };
 
   this.addAuthorNamestoNav = function() {
@@ -66,15 +68,18 @@ function Blog() {
 
   this.addCategorySubjectstoNav = function() {
     webDatabase.execute('SELECT DISTINCT category FROM Blog_Articles ORDER BY category ASC;', my.blog.categorySubject);
-  }
+  };
 
   this.authorSubject = function(author) {
     var $authorFilter = $('#authorFilter');
     $.each(author, function(i,object) {
-    $authorFilter.append('<li class="search-author-name">' + object.author + '</li>');
+      $authorFilter.append('<li class="search-author-name">' + object.author + '</li>');
     });
     my.util.filterByAuthor();
-  }
+    if(my.lookingforAuthorName) {
+      controller.showSpecificAuthorArticles(my.lookingforAuthorName);
+    }
+  };
 
   this.categorySubject = function(category) {
     var $categoryFilter = $('#categoryFilter');
@@ -82,7 +87,13 @@ function Blog() {
       $categoryFilter.append('<li class="search-category-subject">' + object.category + '</li>');
     });
     my.util.filterByCategory();
-  }
+    if(my.lookingforCategorySubject) {
+      controller.showSpecificCategoryArticles(my.lookingforCategorySubject);
+    }
+    my.dataIsLoaded = true;
+    console.log('load Data init', my.dataIsLoaded);
+
+  };
 
   this.manipulateArticleBodyParagraphs = function() {
     var $generateBody = $('.article-body').each(function(){
@@ -134,11 +145,29 @@ function Ajax() {
   this.getJSONdata = function() {
     return $.getJSON('blogArticles.json', my.processJSONarticles);
   };
+
 }
 
 var my = {};
 
 $(function() {
+  my.changedJSONdata = function(data) {
+    my.blog.generateObjectArray(data);
+    my.blog.updateDatabase(my.blog.article);
+    my.processJSONarticles();
+  };
+
+  my.processJSONarticles = function() {
+    //console.log(my.lookingforAuthorName);
+    my.blog.selectArticlesFromDatabase();
+    my.blog.addAuthorNamestoNav();
+    my.blog.addCategorySubjectstoNav();
+
+    /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
+    my.util.navigation();
+  };
+
+my.initialize = function() {
 
   /**** Initialize Objects ****/
   my.$anchor = $('#blog_articles');
@@ -148,19 +177,14 @@ $(function() {
   my.eTag;
   my.articleData;
 
-  my.changedJSONdata = function(data) {
-    my.blog.generateObjectArray(data);
-    my.blog.updateDatabase(my.blog.article);
-    my.processJSONarticles();
-  }
+  // $.ajax({
+  //   url: 'https://api.hithub.com',
+  //   type: 'GET',
+  //   dataType: 'JSON',
+  //   data: 'Authorization: token 5e0f83be0ab21a970dae99f4194d52e1c75cc17e',
+  //   success: function to run next,
+  // });
 
-  my.processJSONarticles = function() {
-    my.blog.selectArticlesFromDatabase();
-    my.blog.addAuthorNamestoNav();
-    my.blog.addCategorySubjectstoNav();
-    /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
-    my.util.navigation();
-  };
 
 /*** First Callback function on page, connects to database and then sets up tables ***/
   webDatabase.init();
@@ -168,8 +192,8 @@ $(function() {
 
 /*** Compiles Template that will be used for each article ***/
   $.get('templates/articleTemplate.html', function(articleTemplate) {
-   my.handleBarTemplate = Handlebars.compile(articleTemplate);
- });
+    my.handleBarTemplate = Handlebars.compile(articleTemplate);
+  });
 
 /*** Check the JSON object head to see if JSON object has been updated.  ***
  *** Once done begin to check if etag is the same as previous etag or if ***
@@ -193,6 +217,8 @@ $(function() {
   my.ajax.getJSONhead().fail(function(){
     console.log('you failed on getting JSON head');
   });
+
+};
 
   return my;
 

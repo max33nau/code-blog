@@ -2,11 +2,11 @@ function Util() {
 
   this.navigation = function() {
 
-    $('#site-Nav-filterArticles').click(
-    function () {
-      $('#filterList',this).slideDown(200);
-    }
-  );
+  //   $('#site-Nav-filterArticles').click(
+  //   function () {
+  //     $('#filterList',this).slideDown(200);
+  //   }
+  // );
 
     $('#closeNavFilter').click(
     function(e) {
@@ -33,14 +33,10 @@ function Util() {
     }
   );
 
-    $('#navAboutMe').click(function() {
-      $('#AboutMe').show();
-      $('.article').hide();
-      $('#site-Nav-filterArticles').hide();
-    });
-
     $('#navArticles').click(function() {
+      history.pushState({},'article','articles');
       $('#AboutMe').hide();
+      $('#blog_articles').show();
       $('.article').show();
       $('#site-Nav-filterArticles').show();
     });
@@ -57,8 +53,7 @@ function Util() {
     var $authorClicked = $('.search-author-name');
     $authorClicked.click(function() {
       var $textValue = $(this).text();
-      // console.log('clicke author', $textValue );
-      // webDatabase.execute('SELECT * FROM Blog_Articles WHERE author='+ $textValue +';', my.util.displayAuthorName);
+      history.pushState({},'author','articles/search/author/'+$textValue);
       $('.author').find('.authorSpan').each(function() {
         var $author = $(this);
         if($author.text() !== $textValue) {
@@ -70,10 +65,27 @@ function Util() {
     });
   };
 
+  this.filterByTitle = function() {
+    var $titleClicked = $('.articleTitle');
+    $titleClicked.click(function() {
+      var $textValue = $(this).text();
+      history.pushState({},'title','articles/search/article/'+$textValue);
+      $('.articleTitle').each(function() {
+        var $title = $(this);
+        if($title.text() !== $textValue) {
+          $title.closest('.article').hide();
+        } else {
+          $title.closest('.article').show();
+        }
+      });
+    });
+  };
+
   this.filterByCategory = function() {
     var $categoryClicked = $('.search-category-subject');
     $categoryClicked.click(function() {
       var $textValue = $(this).text();
+      history.pushState({},'category','articles/search/category/'+$textValue);
       $('.category').each(function() {
         var $category = $(this);
         if($category.text() !== $textValue) {

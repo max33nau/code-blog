@@ -5,11 +5,12 @@
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"> </meta>
     <link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/base.css">
-    <link rel="stylesheet" type="text/css" href="css/module.css">
-    <link rel="stylesheet" type="text/css" href="css/state.css">
-    <link rel="stylesheet" type="text/css" href="css/changing-state.css">
-
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/module.css">
+    <link rel="stylesheet" type="text/css" href="/css/state.css">
+    <link rel="stylesheet" type="text/css" href="/css/changing-state.css">
+    <script language="javascript" type="text/javascript" src="/js/page.js"> </script>
+    <base href="/">
 
   </head>
 
@@ -22,12 +23,12 @@
 
       <nav class="site-Nav">
         <ul class="site-Nav-list">
-          <li id="navArticles" class="site-Nav-listItem site-Nav-tab"> <img class="site-Nav-listIcon" src="img/document.png">  Articles (All)  </li>
-          <li id="navAboutMe" class="site-Nav-listItem site-Nav-tab"> <img class="site-Nav-listIcon" src="img/hire_me.png"> About Me </li>
-          <li class="site-Nav-listItem site-Nav-tab"> <a href="https://github.com/max33nau" target="_blank"> <img class="site-Nav-listIcon" src="img/github.png"> Github </a> </li>
-          <li class="site-Nav-listItem site-Nav-tab"> <a href="https://www.linkedin.com/in/maxjacobsen33" target="_blank"><img class="site-Nav-listIcon" src="img/linkedin.png"> Linkedin </a> </li>
+          <li id="navArticles" class="site-Nav-listItem site-Nav-tab"> <img class="site-Nav-listIcon" src="/img/document.png"> Articles (All)   </li>
+          <li id="navAboutMe" class="site-Nav-listItem site-Nav-tab"> <img class="site-Nav-listIcon" src="/img/hire_me.png"> <a href='aboutme'> About Me </a> </li>
+          <li class="site-Nav-listItem site-Nav-tab"> <a href="https://github.com/max33nau" target="_blank"> <img class="site-Nav-listIcon" src="/img/github.png"> Github </a> </li>
+          <li class="site-Nav-listItem site-Nav-tab"> <a href="https://www.linkedin.com/in/maxjacobsen33" target="_blank"><img class="site-Nav-listIcon" src="/img/linkedin.png"> Linkedin </a> </li>
 
-          <li id="site-Nav-filterArticles" class="site-Nav-listItem site-Nav-search"> <img class="site-Nav-listIcon" src="img/edit_find.png"> Search By:
+          <li id="site-Nav-filterArticles" class="site-Nav-listItem site-Nav-search"> <img class="site-Nav-listIcon" src="/img/edit_find.png"> <a id="searchByFilter" href='articles/search'> Search By: </a>
             <ul id="filterList" class="site-Nav-searchList">
               <li class="searchList-item"> Author-->
                 <ul id="authorFilter" class="searchList-author">  </ul>
@@ -60,17 +61,18 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">></script>
-    <link rel="stylesheet" href="css/ir-black.css">
-    <script src="js/highlight.pack.js"></script>
+    <link rel="stylesheet" href="/css/ir-black.css">
+    <script src="/js/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script language="javascript" type="text/javascript" src="js/handlebars-v4.0.5.js"> </script>
-    <script language="javascript" type="text/javascript" src="js/marked.min.js"> </script>
-    <script language="javascript" type="text/javascript" src="js/initializeBlog.js"> </script>
-    <script language="javascript" type="text/javascript" src="js/blogArticles.js"> </script>
-    <script language="javascript" type="text/javascript" src="js/util.js"> </script>
-    <script language="javascript" type="text/javascript" src="js/html5sql.js"> </script>
-    <script language="javascript" type="text/javascript" src="js/webDatabase.js"> </script>
-    <script language="javascript" type="text/javascript" src="js/blog.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/handlebars-v4.0.5.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/marked.min.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/page.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/util.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/html5sql.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/webDatabase.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/blog.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/articleController.js"> </script>
+    <script language="javascript" type="text/javascript" src="/js/router.js"> </script>
 
   </body>
 </html>

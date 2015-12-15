@@ -64,6 +64,17 @@ webDatabase.insertArticle = function(articleData) {
   );
 };
 
+webDatabase.defer = function (callback) {
+  callback = callback || function() {};
+  html5sql.process(
+    'SELECT * FROM articles WHERE 0=1;',
+    function (tx, result, resultArray) {
+      callback(resultArray);
+    }
+  );
+};
+
+
 webDatabase.execute = function(sql, callback) {
   callback = callback || function() {};
   html5sql.process(
