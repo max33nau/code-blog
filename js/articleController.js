@@ -30,7 +30,7 @@ controller.showSpecificAuthorArticles = function(authorName) {
 };
 
 controller.showSpecificCategoryArticles = function(category) {
-  console.log('here',category);
+  //console.log('here',category);
   $('.category').each(function() {
     var $category = $(this);
     if($category.text() !== category) {
@@ -41,29 +41,44 @@ controller.showSpecificCategoryArticles = function(category) {
   });
 };
 
+controller.showSpecificArticleTitle = function(specificArticleTitle) {
+  $('.articleTitle').each(function() {
+    var $title = $(this);
+    if($title.text() !== specificArticleTitle) {
+      $title.closest('.article').hide();
+    } else {
+      $title.closest('.article').show();
+    }
+  });
+};
+
 controller.searchingForAuthor = function(ctx) {
   my.lookingforAuthorName = ctx.params.author;
 
-  $('.author').find('.authorSpan').each(function() {
-    var $author = $(this);
-    if($author.text() !== ctx.params.author) {
-      $author.closest('.article').hide();
-    } else {
-      $author.closest('.article').show();
-    }
-  });
+  // $('.author').find('.authorSpan').each(function() {
+  //   var $author = $(this);
+  //   if($author.text() !== ctx.params.author) {
+  //     $author.closest('.article').hide();
+  //   } else {
+  //     $author.closest('.article').show();
+  //   }
+  // });
 
 };
 
 controller.searchingForCategory = function(ctx){
   my.lookingforCategorySubject = ctx.params.category;
   //console.log(my.lookingforCategorySubject);
-  $('.category').each(function() {
-    var $category = $(this);
-    if($category.text() !== ctx.params.category) {
-      $category.closest('.article').hide();
-    } else {
-      $category.closest('.article').show();
-    }
-  });
+  // $('.category').each(function() {
+  //   var $category = $(this);
+  //   if($category.text() !== ctx.params.category) {
+  //     $category.closest('.article').hide();
+  //   } else {
+  //     $category.closest('.article').show();
+  //   }
+  // });
+};
+
+controller.searchingForTitle = function(ctx){
+  my.lookingForArticleTitle = ctx.params.title;
 };

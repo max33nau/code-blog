@@ -62,6 +62,14 @@ function Util() {
     });
   };
 
+  this.filterByTitle = function() {
+    var $titleClicked = $('.articleTitle');
+    $titleClicked.click(function() {
+      var $textValue = $(this).text();
+      window.location = 'articles/search/article/'+$textValue;
+    });
+  };
+
   this.filterByCategory = function() {
     var $categoryClicked = $('.search-category-subject');
     $categoryClicked.click(function() {

@@ -33,12 +33,10 @@ function Blog() {
   };
 
   this.selectArticlesFromDatabase = function() {
-
     webDatabase.execute('SELECT * FROM Blog_Articles ORDER BY DaysPublishedAgo ASC', my.blog.showArticlesOnBlog);
   };
 
   this.showArticlesOnBlog = function(myArticles) {
-
     var articles = myArticles;
     //console.log("Async: Near top of showArticles(): articles="+articles);
     $.each(articles, function(i,eachArticle) {
@@ -52,12 +50,16 @@ function Blog() {
     $('pre code').each(function(i,block){
       hljs.highlightBlock(block);
     });
+    my.util.filterByTitle();
+    if(my.lookingForArticleTitle) {
+      controller.showSpecificArticleTitle(my.lookingForArticleTitle);
+    }
   };
+
   this.generateObjectArray = function(rawData) {
     for(var ii = 0; ii < rawData.length; ii++) {
       this.article.push(new Data(rawData[ii]));
     }
-
   };
 
   this.addAuthorNamestoNav = function() {
@@ -171,6 +173,14 @@ $(function() {
     /**** Add Functionality to Main Nav Bar and Create Filter Ability ****/
     my.util.navigation();
   };
+
+  // $.ajax({
+  //   url: 'https://api.hithub.com',
+  //   type: 'GET',
+  //   dataType: 'JSON',
+  //   data: 'Authorization: token 5e0f83be0ab21a970dae99f4194d52e1c75cc17e',
+  //   success: function to run next,
+  // });
 
 
 /*** First Callback function on page, connects to database and then sets up tables ***/
