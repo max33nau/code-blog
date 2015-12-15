@@ -2,11 +2,11 @@ function Util() {
 
   this.navigation = function() {
 
-    $('#site-Nav-filterArticles').click(
-    function () {
-      $('#filterList',this).slideDown(200);
-    }
-  );
+  //   $('#site-Nav-filterArticles').click(
+  //   function () {
+  //     $('#filterList',this).slideDown(200);
+  //   }
+  // );
 
     $('#closeNavFilter').click(
     function(e) {
@@ -33,17 +33,17 @@ function Util() {
     }
   );
 
-    $('#navAboutMe').click(function() {
-      $('#AboutMe').show();
-      $('.article').hide();
-      $('#site-Nav-filterArticles').hide();
-    });
+    // $('#navAboutMe').click(function() {
+    //   $('#AboutMe').show();
+    //   $('.article').hide();
+    //   $('#site-Nav-filterArticles').hide();
+    // });
 
-    $('#navArticles').click(function() {
-      $('#AboutMe').hide();
-      $('.article').show();
-      $('#site-Nav-filterArticles').show();
-    });
+    // $('#navArticles').click(function() {
+    //   $('#AboutMe').hide();
+    //   $('.article').show();
+    //   $('#site-Nav-filterArticles').show();
+    // });
 
     $('#blog_articles').click(function(e) {
       e.stopPropagation();
