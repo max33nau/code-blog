@@ -3,6 +3,11 @@
   color: #F2B100;
 }
 
+/* State */
+.articleTitle {
+  cursor: pointer;
+}
+
 
 /* State  */
 .search-author-name:hover {

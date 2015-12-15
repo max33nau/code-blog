@@ -165,7 +165,7 @@ $(function() {
   };
 
   my.processJSONarticles = function() {
-    console.log(my.lookingforAuthorName);
+    //console.log(my.lookingforAuthorName);
     my.blog.selectArticlesFromDatabase();
     my.blog.addAuthorNamestoNav();
     my.blog.addCategorySubjectstoNav();

@@ -55,28 +55,11 @@ controller.showSpecificArticleTitle = function(specificArticleTitle) {
 controller.searchingForAuthor = function(ctx) {
   my.lookingforAuthorName = ctx.params.author;
 
-  // $('.author').find('.authorSpan').each(function() {
-  //   var $author = $(this);
-  //   if($author.text() !== ctx.params.author) {
-  //     $author.closest('.article').hide();
-  //   } else {
-  //     $author.closest('.article').show();
-  //   }
-  // });
-
 };
 
 controller.searchingForCategory = function(ctx){
   my.lookingforCategorySubject = ctx.params.category;
-  //console.log(my.lookingforCategorySubject);
-  // $('.category').each(function() {
-  //   var $category = $(this);
-  //   if($category.text() !== ctx.params.category) {
-  //     $category.closest('.article').hide();
-  //   } else {
-  //     $category.closest('.article').show();
-  //   }
-  // });
+
 };
 
 controller.searchingForTitle = function(ctx){
