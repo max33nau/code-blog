@@ -1,11 +1,12 @@
-// VIEW
-
+/**** VIEW RELATING TO ABOUT ME AND REPOS ****/
 view.showAboutMe= function() {
   $('#AboutMe').show();
   $('#blog_articles').hide();
   $('#site-Nav-filterArticles').hide();
 };
 
+
+/**** VIEW RELATING TO ARTICLES ****/
 view.showSpecificAuthorArticles = function(authorName) {
 //  console.log(authorName);
   $('.author').find('.authorSpan').each(function() {
