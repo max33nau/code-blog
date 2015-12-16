@@ -3,8 +3,8 @@ $(function() {
 
   page('/',controller.loadData);
   page('articles',controller.loadData);
-  page('aboutme', controller.showAboutMe);
-  page('articles/search', controller.showSearchBar);
+  page('aboutme', view.showAboutMe);
+  page('articles/search', view.showSearchBar);
   page('articles/search/author/:author', controller.searchingForAuthor);
   page('articles/search/category/:category', controller.searchingForCategory);
   page('articles/search/article/:title', controller.searchingForTitle);

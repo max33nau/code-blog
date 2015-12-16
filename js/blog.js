@@ -52,7 +52,7 @@ function Blog() {
     });
     my.util.filterByTitle();
     if(my.lookingForArticleTitle) {
-      controller.showSpecificArticleTitle(my.lookingForArticleTitle);
+      view.showSpecificArticleTitle(my.lookingForArticleTitle);
     }
   };
 
@@ -77,7 +77,7 @@ function Blog() {
     });
     my.util.filterByAuthor();
     if(my.lookingforAuthorName) {
-      controller.showSpecificAuthorArticles(my.lookingforAuthorName);
+      view.showSpecificAuthorArticles(my.lookingforAuthorName);
     }
   };
 
@@ -88,7 +88,7 @@ function Blog() {
     });
     my.util.filterByCategory();
     if(my.lookingforCategorySubject) {
-      controller.showSpecificCategoryArticles(my.lookingforCategorySubject);
+      view.showSpecificCategoryArticles(my.lookingforCategorySubject);
     }
     my.dataIsLoaded = true;
     console.log('load Data init', my.dataIsLoaded);
@@ -167,58 +167,49 @@ $(function() {
     my.util.navigation();
   };
 
-my.initialize = function() {
+  my.initialize = function() {
 
   /**** Initialize Objects ****/
-  my.$anchor = $('#blog_articles');
-  my.util = new Util();
-  my.blog = new Blog();
-  my.ajax = new Ajax();
-  my.eTag;
-  my.articleData;
+    my.$anchor = $('#blog_articles');
+    my.util = new Util();
+    my.blog = new Blog();
+    my.ajax = new Ajax();
+    my.eTag;
+    my.articleData;
 
-  // $.ajax({
-  //   url: 'https://api.hithub.com',
-  //   type: 'GET',
-  //   dataType: 'JSON',
-  //   data: 'Authorization: token 5e0f83be0ab21a970dae99f4194d52e1c75cc17e',
-  //   success: function to run next,
-  // });
+  /*** First Callback function on page, connects to database and then sets up tables ***/
+    webDatabase.init();
+    webDatabase.setupTables();
 
+  /*** Compiles Template that will be used for each article ***/
+    $.get('templates/articleTemplate.html', function(articleTemplate) {
+      my.handleBarTemplate = Handlebars.compile(articleTemplate);
+    });
 
-/*** First Callback function on page, connects to database and then sets up tables ***/
-  webDatabase.init();
-  webDatabase.setupTables();
+  /*** Check the JSON object head to see if JSON object has been updated.  ***
+   *** Once done begin to check if etag is the same as previous etag or if ***
+   *** it even existed.                                                    ***/
+    my.ajax.getJSONhead().done(function(data,server,xhr){
+      my.eTag = xhr.getResponseHeader('eTag');
 
-/*** Compiles Template that will be used for each article ***/
-  $.get('templates/articleTemplate.html', function(articleTemplate) {
-    my.handleBarTemplate = Handlebars.compile(articleTemplate);
-  });
+      if(my.eTag !== localStorage.getItem('uniqueEtag')) {
+        localStorage.setItem('uniqueEtag', my.eTag);
+    /*** Happens when first etag doesn't exist or is new ***/
+        my.ajax.getUpdatedJSONdata().done(function() {
+          console.log('Data Loaded');
+        });
+        my.ajax.getJSONdata().fail(function(){
+          console.log('you failed on getting JSON data');
+        });
+      } else {
+        my.ajax.getJSONdata();
+      }
+    });
+    my.ajax.getJSONhead().fail(function(){
+      console.log('you failed on getting JSON head');
+    });
 
-/*** Check the JSON object head to see if JSON object has been updated.  ***
- *** Once done begin to check if etag is the same as previous etag or if ***
- *** it even existed.                                                    ***/
-  my.ajax.getJSONhead().done(function(data,server,xhr){
-    my.eTag = xhr.getResponseHeader('eTag');
-
-    if(my.eTag !== localStorage.getItem('uniqueEtag')) {
-      localStorage.setItem('uniqueEtag', my.eTag);
-  /*** Happens when first etag doesn't exist or is new ***/
-      my.ajax.getUpdatedJSONdata().done(function() {
-        console.log('Data Loaded');
-      });
-      my.ajax.getJSONdata().fail(function(){
-        console.log('you failed on getting JSON data');
-      });
-    } else {
-      my.ajax.getJSONdata();
-    }
-  });
-  my.ajax.getJSONhead().fail(function(){
-    console.log('you failed on getting JSON head');
-  });
-
-};
+  };
 
   return my;
 
