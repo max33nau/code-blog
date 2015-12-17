@@ -1,12 +1,55 @@
+/**** VIEW RELATING TO ABOUT ME AND REPOS ****/
+view.showAboutMe= function() {
+  $('#AboutMe').show();
+  $('#blog_articles').hide();
+  $('#site-Nav-filterArticles').hide();
+};
+
+
+/**** VIEW RELATING TO ARTICLES ****/
+view.showSpecificAuthorArticles = function(authorName) {
+//  console.log(authorName);
+  $('.author').find('.authorSpan').each(function() {
+    var $author = $(this);
+    if($author.text() !== authorName) {
+      $author.closest('.article').hide();
+    } else {
+      $author.closest('.article').show();
+    }
+  });
+};
+
+view.showSpecificCategoryArticles = function(category) {
+  //console.log('here',category);
+  $('.category').each(function() {
+    var $category = $(this);
+    if($category.text() !== category) {
+      $category.closest('.article').hide();
+    } else {
+      $category.closest('.article').show();
+    }
+  });
+};
+
+view.showSpecificArticleTitle = function(specificArticleTitle) {
+  $('.articleTitle').each(function() {
+    var $title = $(this);
+    if($title.text() !== specificArticleTitle) {
+      $title.closest('.article').hide();
+    } else {
+      $title.closest('.article').show();
+    }
+  });
+};
+
+view.showSearchBar = function() {
+  $('#filterList','#site-Nav-filterArticles').slideDown(200);
+};
+
+//VIEWING OPTIONS FOR NAV BAR
 function Util() {
 
   this.navigation = function() {
-
-  //   $('#site-Nav-filterArticles').click(
-  //   function () {
-  //     $('#filterList',this).slideDown(200);
-  //   }
-  // );
 
     $('#closeNavFilter').click(
     function(e) {
@@ -33,6 +76,13 @@ function Util() {
     }
   );
 
+    $('#navAboutMe').click(function() {
+      history.pushState({},'aboutme','/aboutme');
+      $('#AboutMe').show();
+      $('#blog_articles').hide();
+      $('#site-Nav-filterArticles').hide();
+    });
+
     $('#navArticles').click(function() {
       history.pushState({},'article','articles');
       $('#AboutMe').hide();
@@ -45,9 +95,7 @@ function Util() {
       e.stopPropagation();
       $('#filterList').stop().slideUp(200);
     });
-
   };
-
 
   this.filterByAuthor = function() {
     var $authorClicked = $('.search-author-name');
