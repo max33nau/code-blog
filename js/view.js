@@ -76,6 +76,13 @@ function Util() {
     }
   );
 
+    $('#navAboutMe').click(function() {
+      history.pushState({},'aboutme','/aboutme');
+      $('#AboutMe').show();
+      $('#blog_articles').hide();
+      $('#site-Nav-filterArticles').hide();
+    });
+
     $('#navArticles').click(function() {
       history.pushState({},'article','articles');
       $('#AboutMe').hide();
