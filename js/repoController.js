@@ -20,11 +20,13 @@ githubAPI.ajaxRequestInfo = function(aboutme) {
 };
 
 githubAPI.generateMyGitHubInfo = function(data) {
-  //console.log(data);
+  console.log(data);
   $myGithubInfo = $('#myGithubInfo');
   $myGithubInfo.append('<h1> My Github Information </h1> <h3> Username:'+
   ' <a href=https://github.com/max33nau target="_blank"> @max33nau </a>'+
-  ' </h3> <h3> Current Repositories: </h3> <ul id="repos"> </ul> ');
+  ' </h3> <p> Below is a list of the Repositories I have created on Github. '+
+  'Each repo name is a link to that repo. If you like what you see on the github repo page, '+
+  'please click the star in upper right corner of the page. Thanks. <h3> Current Repositories: </h3> <ul id="repos"> </ul> ');
   $repos = $('#repos');
   data.forEach(function(object){
     $repos.append('<li class="repoName"> <a class="repoURL" href='+object.html_url+'> '+
@@ -35,11 +37,13 @@ githubAPI.generateMyGitHubInfo = function(data) {
 };
 
 githubAPI.generateButDoNotShow = function(data) {
-  //console.log(data);
+  console.log(data);
   $myGithubInfo = $('#myGithubInfo');
   $myGithubInfo.append('<h1> My Github Information </h1> <h3> Username:'+
   ' <a href=https://github.com/max33nau target="_blank"> @max33nau </a>'+
-  ' </h3> <h3> Current Repositories: </h3> <ul id="repos"> </ul> ');
+  ' </h3> <p> Below is a list of the Repositories I have created on Github. '+
+  'Each repo name is a link to that repo. If you like what you see on the github repo page, '+
+  'please click the star in upper right corner of the page. Thanks. <h3> Current Repositories: </h3> <ul id="repos"> </ul> ');
   $repos = $('#repos');
   data.forEach(function(object){
     $repos.append('<li class="repoName"> <a class="repoURL" href='+object.html_url+'> '+
